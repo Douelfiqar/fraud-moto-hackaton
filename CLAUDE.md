@@ -29,7 +29,7 @@ Trois déploiements, appelés par leur nom dans le paramètre `model` :
 | `text-embedding-3-small` | embeddings (RAG, recherche de similarité) |
 
 Exemple prêt à lancer : `exemples/appel_azure.py` (`pip install -r requirements.txt`, copier `.env.example` en `.env`, y mettre la clé).
-Quota : **100 € par équipe** pour le week-end, suivi par les encadrants. Bornez les réponses (`max_completion_tokens`), gardez un début de prompt stable (cache), calculez les embeddings une seule fois.
+Quota pour le week-end, selon le cas : **100 € pour une équipe Fraude, 150 € pour une équipe Marine**, suivi par les encadrants. Bornez les réponses (`max_completion_tokens`), gardez un début de prompt stable (cache), calculez les embeddings une seule fois.
 
 ## Lire les documents (OCR)
 
