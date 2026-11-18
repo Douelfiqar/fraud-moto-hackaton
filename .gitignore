@@ -1,0 +1,23 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Données du jeu : à garder en local, jamais dans Git
+data/*
+!data/LISEZMOI.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+dist/
+build/
+
+# Divers
+.DS_Store
+*.log

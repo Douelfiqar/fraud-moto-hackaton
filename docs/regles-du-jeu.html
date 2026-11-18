@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hackathon IA APRIL · règles du jeu</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>body{margin:0;background:#f3f6f8;padding:24px}
+.rdoc{background:#fff;color:#14232c;border:1px solid #dbe3e8;border-radius:18px;padding:40px 48px;max-width:920px;margin:0 auto;font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.6}
+.rdoc h1{font-size:34px;line-height:1.1;font-weight:800;letter-spacing:-.02em;color:#003C61;margin:4px 0 10px}
+.rdoc h2{font-size:21px;font-weight:700;color:#003C61;margin:34px 0 8px;letter-spacing:-.01em}
+.rdoc h3{font-size:16px;font-weight:600;color:#003C61;margin:18px 0 6px}
+.rdoc p{margin:0 0 10px;max-width:72ch}
+.rdoc .kicker{color:#3EAAC4;font-weight:600;font-size:14px}
+.rdoc .lead{font-size:16.5px;color:#3d4d57}
+.rdoc .muted{color:#5c6c76;font-size:13.5px}
+.rdoc .formula{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 6px}
+.rdoc .formula span{background:#eef4f7;border-radius:10px;padding:8px 13px;font-weight:600;color:#003C61;font-size:14px}
+.rdoc .formula span.tot{background:#003C61;color:#fff}
+.rdoc .formula i{font-style:normal;color:#5c6c76;font-weight:600}
+.rdoc table{width:100%;border-collapse:collapse;margin:10px 0 6px;font-size:14px}
+.rdoc th,.rdoc td{border-bottom:1px solid #e3eaee;padding:10px 12px;text-align:left;vertical-align:top}
+.rdoc th{font-size:12.5px;font-weight:600;color:#5c6c76;background:#f5f8fa}
+.rdoc td.n{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rdoc .pos{color:#4d7f24}.rdoc .neg{color:#D02E41}.rdoc .zero{color:#8a9aa3}
+.rdoc .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.rdoc .step{border:1px solid #dbe3e8;border-top:4px solid #3EAAC4;border-radius:12px;padding:12px 14px;background:#fff}
+.rdoc .step:nth-child(2){border-top-color:#003C61}.rdoc .step:nth-child(3){border-top-color:#639E30}.rdoc .step:nth-child(4){border-top-color:#F8AA36}
+.rdoc .step .no{font-size:12px;color:#5c6c76;font-weight:600}
+.rdoc .step b{display:block;font-size:17px;color:#003C61}
+.rdoc .step .q{font-size:13px;color:#3d4d57;margin-top:2px}
+.rdoc .step .pts{font-size:22px;font-weight:800;color:#003C61;margin-top:8px;text-align:left;line-height:1.2;letter-spacing:0}
+.rdoc .step .pts small{font-size:12px;font-weight:500;color:#5c6c76}
+.rdoc .mx{display:grid;grid-template-columns:150px 1fr 1fr 1fr;gap:6px;margin:12px 0}
+.rdoc .mx div{border-radius:10px;padding:12px 14px;font-size:13.5px}
+.rdoc .mx .h{background:none;color:#5c6c76;font-weight:600;font-size:12.5px;padding:4px 14px;align-self:end}
+.rdoc .mx .rh{background:#003C61;color:#fff;font-weight:600}
+.rdoc .mx .c{background:#f5f8fa;border:1px solid #e3eaee}
+.rdoc .mx .c b{display:block;font-size:24px;font-weight:800;line-height:1.1}
+.rdoc .mx .good{background:#eef6e8;border-color:#cfe5bf}
+.rdoc .mx .bad{background:#fbeef0;border-color:#f1cbd1}
+.rdoc .note{border-left:4px solid #F8AA36;background:#fff8ec;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14px}
+.rdoc .ex{background:#f5f8fa;border-radius:12px;padding:16px 18px;margin:12px 0}
+.rdoc .ex table{background:#fff}
+.rdoc code{background:#eef4f7;border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.rdoc ul{margin:6px 0 10px 20px;padding:0}
+.rdoc .codes2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.rdoc pre{margin:0;background:#06263d;color:#e6eef2;border-radius:12px;padding:14px 16px;font-size:12.5px;line-height:1.55;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.rdoc pre .cm{color:#7f9cad}.rdoc pre .st{color:#F8AA36}.rdoc pre .kw{color:#3EAAC4}
+@media (max-width:760px){.rdoc .codes2{grid-template-columns:1fr}}.rdoc li{margin:4px 0}
+.rdoc.rdoc-pdf{border:0;border-radius:0;padding:0;max-width:none;width:700px;font-size:14px}
+.rdoc.rdoc-pdf .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+.rdoc.rdoc-pdf .mx{grid-template-columns:120px 1fr 1fr 1fr}
+.rdoc.rdoc-pdf .codes2{grid-template-columns:1fr 1fr}
+.rdoc.rdoc-pdf h2{break-after:avoid;page-break-after:avoid}
+@media (max-width:760px){.rdoc{padding:24px 20px}.rdoc .steps{grid-template-columns:1fr 1fr}.rdoc .mx{grid-template-columns:100px 1fr 1fr 1fr}}
+@media print{body{background:#fff;padding:0}.rdoc{border:0}}</style></head><body><article class="rdoc">
+  <div class="kicker">Hackathon IA APRIL</div>
+  <h1>Règles du jeu et barème</h1>
+  <p class="lead">Deux cas, un score par cas. Vous déposez un fichier de réponses, nous le corrigeons automatiquement et le classement se met à jour à l’écran. Le score récompense la justesse.</p>
+
+  <h2>Comment se construit votre score</h2>
+  <div class="formula"><span>Points sur les données</span><i>+</i><span>Anomalies et modèles validés (cas 2)</span><i>+</i><span>Note technique</span><i>=</i><span class="tot">Score</span></div>
+  <p class="muted">Le classement en direct porte sur l’ensemble des données : vous suivez votre score en continu, et il est figé à l’arrêt des compteurs (dimanche 14:45).</p>
+
+  
+
+  <h2>Cas 1 · fraude documentaire Moto</h2>
+  <p>Pour chaque document du jeu, vous indiquez s’il est faux, quelle que soit la nature du document (relevé d’information, permis de conduire, RIB, carte grise, pièce d’identité ou titre de séjour) et quelle que soit la nature de la fraude (altération de l’image, constitution non conforme, document généré par IA, incohérence au sein du document).</p>
+  <div class="mx">
+    <div class="h"></div><div class="h">Vous répondez « frauduleux »</div><div class="h">Vous répondez « sain »</div><div class="h">Document absent du fichier</div>
+    <div class="rh">Le document est faux</div>
+    <div class="c good"><b class="pos">+1</b>faux démasqué</div>
+    <div class="c "><b class="zero">0</b>faux raté</div>
+    <div class="c "><b class="zero">0</b>compte comme raté</div>
+    <div class="rh">Le document est vrai</div>
+    <div class="c bad"><b class="zero">0</b>faux positif, compté dans le taux de faux positifs</div>
+    <div class="c"><b class="zero">0</b>bien classé</div>
+    <div class="c"><b class="zero">0</b>pas de réponse</div>
+  </div>
+  <div class="note"><b>Un taux de faux positifs à maintenir sous 5 % du jeu.</b> Un faux positif est un vrai document signalé à tort comme suspect. Au-delà de 5 %, une pénalité de -2 points par point de faux positifs supplémentaire s’applique. Exemple : avec 7 % de faux positifs, l’équipe perd 4 points. L’enjeu n’est donc pas de tout signaler, mais de trouver le bon équilibre entre faux documents démasqués et vrais documents écartés à tort.</div>
+  <p class="muted">Les faux générés par IA comptent comme les autres faux. <code>genere_ia</code> et <code>type</code> sont facultatifs et ne rapportent pas de points : ils nourrissent le retour d’analyse. Le jeu compte 127 documents : Permis de conduire (51), Carte grise (14), Relevé d’information (30), Pièce d’identité ou titre de séjour (21), RIB (11).</p>
+
+  
+  <h2>Cas 2 · segmentation bateaux Marine</h2>
+  <p>Trois objectifs, notés séparément. Vos points s’affichent dans le classement en direct, au fil des validations.</p>
+  <table><thead><tr><th>Objectif</th><th style="text-align:right">Points</th><th>Règle</th></tr></thead><tbody>
+    <tr><td><b>1 · Segments effacés</b></td><td class="n pos">+5</td><td>Par bateau de la liste des 200 remis dans son bon segment. C’est votre dernier dépôt qui compte.</td></tr>
+    <tr><td><b>2 · Anomalies de la base</b></td><td class="n pos">+10</td><td>Par bateau mal segmenté dans la base, validé par l’équipe métier. Une anomalie rejetée rapporte 0 point mais compte dans votre plafond : <b>50 anomalies soumises au plus</b> sur tout le hackathon, tous dépôts confondus. Soumettez progressivement.</td></tr>
+    <tr><td><b>3 · Nouveaux modèles</b></td><td class="n pos">+25</td><td>Par modèle absent de la base, trouvé sur vos sites et <b>entièrement juste</b> : constructeur, modèle, longueur, segment, matériau, image. Année de construction 2025 ou plus, <b>25 modèles au plus</b>, 5 au plus par segment. Un modèle déjà présent dans la base, même sous un autre nom, est rejeté d’office.</td></tr>
+  </tbody></table>
+  <div class="note"><b>Faites valider vos résultats lors des créneaux dédiés.</b> Les points « anomalie de segment » et « nouveau modèle » ne sont acquis qu’une fois validés par les équipes métier April Marine. Chaque équipe dispose de 2 créneaux de 15 minutes par jour pour présenter ses résultats au métier. Samedi : un passage entre 15h et 16h, puis entre 18h et 19h. Dimanche : un passage entre 11h et 12h, puis entre 13h et 14h. Les passages se font dans l’ordre d’arrivée des équipes (premier arrivé, premier servi). Envoyez votre fichier de réponses au plus tard 15 minutes avant votre passage : seuls les éléments qu’il contient pourront être présentés. Validez au fur et à mesure plutôt que de tout garder pour la fin : seuls les éléments validés lors de ces créneaux sont comptabilisés, et le dernier créneau se termine à 14:00. Les segments des 200 bateaux restent comptés jusqu’à l’arrêt des compteurs (14:45).</div>
+  
+  <h3>Les 19 segments officiels d’APRIL Marine</h3><p>Utilisez ces codes dans vos réponses.</p>
+  <table><thead><tr><th>Code</th><th>Segment</th><th>Critères</th></tr></thead><tbody><tr><td><code>JS</code></td><td>Jet Ski 2 places</td><td class="small">Véhicule nautique à moteur à guidon et à selle, coque ouverte, propulsion par turbine. Capacité homologuée à 2 personnes maximum</td></tr><tr><td><code>JS-</code></td><td>Jet Ski 3 places</td><td class="small">Véhicule nautique à moteur à guidon et à selle, coque ouverte, propulsion par turbine. Capacité homologuée à 3 personnes maximum</td></tr><tr><td><code>MY</code></td><td>Moteur Yacht</td><td class="small">Grande unité à moteur, habitable et haut de gamme, à partir de 17m de long</td></tr><tr><td><code>PN</code></td><td>Pneumatique</td><td class="small">Bateau dont la flottabilité et la structure latérale repose sur des flotteurs gonflables, sans coque rigide. Généralement de petite taille (inférieure à 5m)</td></tr><tr><td><code>PS</code></td><td>Prototype / Monotype / Course Pure</td><td class="small">Bateau conçu prioritairement pour la compétition, construit à l’unité ou selon une jauge ou série stricte. Peut être un bateau construit à l&#39;unité sans être destiné à la compétition</td></tr><tr><td><code>SR</code></td><td>Semi Rigide</td><td class="small">Bateau à coque rigide équipé de flotteurs pneumatiques périphériques</td></tr><tr><td><code>MCR</code></td><td>Vedette de Croisiere / Vedette Sedan / Trawler / Vedette Fluviale</td><td class="small">Bateau à moteur habitable, fermé ou semi-fermé, destiné à la croisière, privilégiant confort, protection et autonomie. Taille de 8 à 18m</td></tr><tr><td><code>MMU</code></td><td>Vedette Multicoque Croisiere / Trawler Catamaran</td><td class="small">Bateau à moteur habitable à deux coques ou plus, caractérisé par sa largeur, sa stabilité et ses grands volumes</td></tr><tr><td><code>MPP</code></td><td>Vedette Peche Promenade</td><td class="small">Bateau à moteur polyvalent et confortable pour la pêche et les sorties familiales, avec cockpit de pêche et timonerie ou protection partielle</td></tr><tr><td><code>MPR</code></td><td>Vedette Peche Promenade Rapide</td><td class="small">Pêche-promenade doté d’une carène performante et d’une motorisation permettant une vitesse élevée. Bateau orienté performance</td></tr><tr><td><code>MS</code></td><td>Vedette Rapide / Coque Open / Rigide Hors Bord</td><td class="small">Bateau rigide principalement ouvert, pouvant avoir une motorisation hors-bord, destiné aux sorties à la journée ou à la petite croisière, à la vitesse et aux loisirs nautiques</td></tr><tr><td><code>VL</code></td><td>Voile Legere / Voile Aviron / Engins de Plage</td><td class="small">Petite embarcation légère, non habitable, transportable ou facilement mise à l’eau, destinée à un usage côtier ou de proximité. Généralement comprise entre 3 et 6m</td></tr><tr><td><code>VCL</code></td><td>Voilier Classique / Unite en Bois / Vieille Marine</td><td class="small">Voilier traditionnel, ancien ou de conception classique, souvent construit en bois et doté d’un gréement historique ou traditionnel.</td></tr><tr><td><code>VCR</code></td><td>Voilier Croisiere / Voilier Mixte / Voilier de Voyage</td><td class="small">Voilier monocoque habitable, avec couchages et équipements de vie, conçu principalement pour la croisière côtière ou hauturière. Orientation confort</td></tr><tr><td><code>VMU</code></td><td>Voilier Multicoques Croisiere</td><td class="small">Voilier habitable à deux ou trois coques, conçu pour la croisière confortable, avec grands volumes et équipements résidentiels. Orientation confort</td></tr><tr><td><code>VM</code></td><td>Voilier Multicoques tarif normal</td><td class="small">Voilier habitable à deux ou trois coques, conçu pour la croisière rapide. Orientation performance</td></tr><tr><td><code>VPP</code></td><td>Voilier Peche Promenade</td><td class="small">Petit voilier simple et polyvalent, destiné à la navigation côtière, à la pêche et aux sorties à la journée, avec habitabilité réduite.</td></tr><tr><td><code>VS</code></td><td>Voilier Sportif / Course Croisiere</td><td class="small">Voilier léger ou puissant, à carène performante, équipé pour la régate mais conservant une habitabilité minimale.</td></tr><tr><td><code>VY</code></td><td>Voilier Yacht</td><td class="small">Grand voilier habitable et haut de gamme, à partir de 17m de long</td></tr></tbody></table>
+
+  
+  <h2>Validation technique</h2>
+  <p>En plus des points sur les données, le jury note la qualité technique de votre solution, pour chaque cas. Un assistant IA relit votre dépôt Git et propose une note ; le jury relit, ajuste et valide. Seule la note validée compte. Elle pèse environ un tiers du score maximal.</p>
+  <table><thead><tr><th>Critère</th><th style="text-align:right">Points</th><th>Ce qui est regardé</th></tr></thead><tbody>
+    <tr><td><b>Qualité de l’usage de l’IA</b></td><td class="n">20</td><td>Modèles choisis selon la tâche · Prompts clairs et rangés, sorties structurées · Gestion des erreurs et des cas limites</td></tr><tr><td><b>Maîtrise de la consommation Azure</b></td><td class="n">5</td><td>Rester sous le quota annoncé · Le modèle le moins cher quand il suffit · Pas de boucle ni d’appel inutile</td></tr><tr><td><b>Qualité du code et reproductibilité</b></td><td class="n">15</td><td>README qui explique comment installer et lancer · Dépendances déclarées, configuration par .env · Structure lisible, responsabilités séparées · Tests ou script d’évaluation</td></tr><tr><td><b>Démo, explicabilité et contrôle humain</b></td><td class="n">10</td><td>Interface utilisable par un gestionnaire · Chaque réponse est expliquée : raisons, indices, confiance · Une personne valide avant toute décision</td></tr>
+    
+  </tbody></table>
+  <div class="note"><b>Les règles à respecter.</b> Backend en Python · Un seul fournisseur de LLM : le compte Azure OpenAI de l’équipe · Aucune clé dans Git · Seul le code poussé avant l’arrêt des compteurs compte. Elles ne rapportent pas de points ; un manquement est signalé au jury, qui décide d’une éventuelle pénalité.</div>
+  <h3>Retours en cours de route</h3>
+  <p>Chaque dépôt enregistré est relu par l’assistant : votre encadrant vous transmet un retour court. Il porte sur votre fichier (couverture, cohérence, qualité des justifications), sur des taux agrégés (par famille de document ou par segment) quand le corrigé est chargé, et, pour le dépôt final, sur votre code. Il ne cite jamais un document ni sa réponse attendue.</p>
+
+  <h2>Exemple de calcul</h2>
+  <div class="ex">
+    <p>Sur le cas 1, imaginons un jeu de 142 documents, dont 75 faux et 67 vrais. Une équipe dépose ce fichier :</p>
+    <table><thead><tr><th>Ligne</th><th style="text-align:right">Nombre</th><th style="text-align:right">Points unitaires</th><th style="text-align:right">Sous-total</th></tr></thead><tbody>
+    <tr><td>Faux démasqués</td><td class="n">60</td><td class="n pos">+1</td><td class="n pos">+60</td></tr><tr><td>Points de % de faux positifs au-delà de 5 % (10 faux positifs sur 142 documents, soit 7 %)</td><td class="n">2</td><td class="n neg">-2</td><td class="n neg">-4</td></tr>
+    <tr><td><b>Points sur les données</b></td><td></td><td></td><td class="n">56</td></tr>
+    </tbody></table>
+    <p style="margin-top:12px">Elle démasque 80 % des faux, avec 7 % de faux positifs (score maximal sur les données : 75 points).</p>
+    <p><b>Score : 56 points, plus sa note technique.</b></p>
+  </div>
+
+  <h2>Déposer vos réponses</h2>
+  <p>Le format d’échange est <b>TOML 1.0</b> : un fichier par cas, à envoyer par mail à l’adresse fournie par votre encadrant, en pièce jointe nommée <code>equipe_cas.toml</code>. L’heure de réception du mail fait foi pour l’arrêt des compteurs. Le bloc <code>[meta]</code> identifie votre équipe, puis chaque entrée est une table. Partez du modèle fourni, qui contient déjà tous les identifiants.</p>
+  <div class="codes2">
+<pre><span class="cm"># reponses_fraude.toml</span>
+[meta]
+equipe = <span class="st">"Data Corsaires"</span>
+cas = <span class="st">"fraude"</span>
+etape = <span class="st">"intermediaire"</span>   <span class="cm"># ou "final"</span>
+commit = <span class="st">"3f9c2ab"</span>           <span class="cm"># optionnel</span>
+modeles = [<span class="st">"gpt-6.1-terra"</span>]       <span class="cm"># optionnel</span>
+
+[[document]]
+id = <span class="st">"DOC-0042"</span>
+frauduleux = <span class="kw">true</span>
+genere_ia = <span class="kw">false</span>     <span class="cm"># optionnel</span>
+type = <span class="st">"date modifiée"</span>  <span class="cm"># optionnel</span>
+confiance = 0.91          <span class="cm"># optionnel</span>
+justification = <span class="st">"Date postérieure au sinistre"</span>
+indices = [<span class="st">"police différente"</span>, <span class="st">"date retouchée"</span>]  <span class="cm"># optionnel</span>
+
+[[document]]
+id = <span class="st">"DOC-0043"</span>
+frauduleux = <span class="kw">false</span></pre>
+<pre><span class="cm"># reponses_bateaux.toml</span>
+[meta]
+equipe = <span class="st">"Data Corsaires"</span>
+cas = <span class="st">"bateaux"</span>
+etape = <span class="st">"intermediaire"</span>
+
+[[bateau]]                  <span class="cm"># un par bateau des 200</span>
+id = <span class="st">"62f1c0a9e4b0"</span>
+segment = <span class="st">"VCR"</span>
+justification = <span class="st">"Voilier de 11,9 m, cabine"</span>  <span class="cm"># optionnel</span>
+
+[[anomalie]]                <span class="cm"># modèle mal segmenté</span>
+id = <span class="st">"5d3a91e7c2f4"</span>
+segment_propose = <span class="st">"MPP"</span>
+justification = <span class="st">"Open de 6 m, pas de cabine"</span>
+
+[[nouveau_modele]]          <span class="cm"># absent de la base</span>
+constructeur = <span class="st">"Dufour"</span>
+modele = <span class="st">"44"</span>
+type = <span class="st">"sailboat"</span>
+longueur = 13.4
+materiau = <span class="st">"polyester"</span>
+segment = <span class="st">"VCR"</span>
+annee = 2025
+image = <span class="st">"https://..."</span>
+url_source = <span class="st">"https://..."</span></pre>
+  </div>
+  <ul>
+    <li>Cas 1 : un bloc <code>[[document]]</code> par document du jeu ; <code>frauduleux</code> est un booléen ; <code>genere_ia</code> (booléen) et <code>type</code> (texte libre) sont facultatifs. Un document absent du fichier compte comme « sain ».</li>
+    <li>Cas 2 : un bloc <code>[[bateau]]</code> par bateau des 200 avec son code de segment officiel ; des blocs <code>[[anomalie]]</code> (identifiant de la base et <code>segment_propose</code>) et <code>[[nouveau_modele]]</code> (les six champs, l’année, <code>url_source</code>). Un dépôt peut ne contenir que des anomalies ou des nouveaux modèles : vos segments précédents restent comptés. Chaque fiche passe des contrôles automatiques au dépôt (modèle connu, segment valide, doublons, plafonds, sites) ; celles qui échouent sont écartées sans pénalité et la raison vous est transmise.</li>
+    <li>En Python : <code>tomllib</code> lit le TOML en natif depuis la version 3.11 ; pour l’écrire, utilisez <code>tomli-w</code> ou générez le texte vous-mêmes. Un fichier JSON de même structure est aussi accepté.</li>
+    <li>Le fichier est validé à la réception : une erreur de syntaxe est signalée avec sa ligne, et le dépôt n’est pas compté.</li>
+    <li>Champs facultatifs, sans effet sur les points sur les données : dans <code>[meta]</code>, <code>etape</code> (<code>"intermediaire"</code> ou <code>"final"</code>), <code>commit</code> (le SHA Git du code qui a produit le fichier) et <code>modeles</code> ; dans chaque entrée, <code>confiance</code>, <code>justification</code> et, pour le cas 1, <code>indices</code>. Ils nourrissent le retour d’analyse et la note technique : une réponse justifiée vaut mieux qu’une réponse nue.</li>
+    <li>Le dépôt <code>"final"</code> déclenche l’analyse complète, code compris, à partir du <code>commit</code> indiqué. Sans commit, c’est le dernier commit poussé sur la branche principale qui est lu.</li>
+    <li>10 dépôts au maximum par équipe et par cas, au moins 30 minutes entre deux dépôts d’une même équipe sur un même cas. C’est votre dernier dépôt qui compte pour les points sur les données.</li>
+    <li>À égalité de score, l’équipe qui a déposé la première passe devant.</li>
+  </ul></article></body></html>

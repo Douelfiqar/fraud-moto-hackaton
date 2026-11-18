@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Brief techno · Hackathon IA APRIL</title>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : colonne de lecture unique, schéma pleine largeur, fiches de réglage en grille */
+:root{
+  --bg:#f4f3ef;--surface:#fffefb;--surface-2:#eeede7;--ink:#1a1c20;--ink-2:#4a4e57;--ink-3:#757a84;
+  --line:#dddbd2;--accent:#17504c;--accent-soft:#e1ece9;--ok:#2f7a3d;--ok-bg:#e5f1e6;--warn:#9a6a00;--warn-bg:#fbf0d6;--ko:#b3263a;--ko-bg:#f8e3e6;
+  --code-bg:#1e2326;--code-ink:#e6e8e3;
+  --f-sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111315;--surface:#191c1f;--surface-2:#22262a;--ink:#e9ebe7;--ink-2:#b4b9b5;--ink-3:#868c88;
+  --line:#2f3438;--accent:#6cc2b5;--accent-soft:#1c3330;--ok:#7cc98a;--ok-bg:#1b2d1f;--warn:#e6b84f;--warn-bg:#33290f;--ko:#f08394;--ko-bg:#3a1a20;
+  --code-bg:#0b0d0e;--code-ink:#e6e8e3;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111315;--surface:#191c1f;--surface-2:#22262a;--ink:#e9ebe7;--ink-2:#b4b9b5;--ink-3:#868c88;
+  --line:#2f3438;--accent:#6cc2b5;--accent-soft:#1c3330;--ok:#7cc98a;--ok-bg:#1b2d1f;--warn:#e6b84f;--warn-bg:#33290f;--ko:#f08394;--ko-bg:#3a1a20;
+  --code-bg:#0b0d0e;--code-ink:#e6e8e3;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-sans);margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+header.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:6px 18px;border-bottom:1px solid var(--line)}
+.brand-logo{display:block;height:24px;width:auto}
+:root[data-theme="dark"] .brand-logo{background:#fff;border-radius:6px;padding:3px 7px;height:30px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand-logo{background:#fff;border-radius:6px;padding:3px 7px;height:30px}}
+.sep{width:1px;height:22px;background:var(--line)}
+.tool{font-weight:600;color:var(--ink-2)}
+.spacer{flex:1}
+.theme{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.theme button{font:inherit;font-size:12px;border:0;background:var(--surface);color:var(--ink-2);padding:4px 10px;cursor:pointer}
+.theme button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.theme button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:28px 0 8px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:21px;margin:44px 0 10px;text-wrap:balance}
+h3{font-size:16px;margin:0 0 6px}
+p{margin:0 0 12px;max-width:68ch}
+.lead{font-size:17px;color:var(--ink-2);max-width:62ch}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+code,.mono{font-family:var(--f-mono);font-size:.9em}
+p code,li code,td code{background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.principle{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px}
+.principle div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.principle b{display:block;margin-bottom:4px}
+.principle .no b{color:var(--ko)} .principle .yes b{color:var(--ok)}
+.principle span{color:var(--ink-2);font-size:14px}
+/* schéma */
+.diagram{overflow-x:auto;margin-top:14px}
+.dg{min-width:760px;display:grid;grid-template-columns:1.25fr 46px 1fr;gap:0;align-items:stretch}
+.sub{border:1.5px dashed var(--accent);border-radius:12px;padding:14px;background:var(--surface)}
+.sub>.lbl,.side>.lbl{font:500 11px var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.teams{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rg{border:1px solid var(--line);border-radius:9px;padding:10px;background:var(--surface-2)}
+.rg .n{font:600 12px var(--f-mono)}
+.rg .acc{margin-top:8px;border-radius:7px;background:var(--surface);border:1px solid var(--line);padding:7px 8px;font-size:12px}
+.rg .acc b{display:block;font:500 11.5px var(--f-mono);color:var(--accent)}
+.rg ul{margin:5px 0 0;padding-left:16px;font-size:11.5px;color:var(--ink-2)}
+.rg .bud{margin-top:7px;font-size:11.5px;color:var(--warn);background:var(--warn-bg);border-radius:5px;padding:2px 7px;display:inline-block}
+.rg.more{display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:13px;border-style:dashed;background:transparent}
+.arrow{display:flex;align-items:center;justify-content:center;color:var(--ink-3)}
+.side{display:flex;flex-direction:column;gap:10px}
+.box{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface)}
+.box .t{font-weight:600;font-size:13.5px}
+.box .d{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.box.hl{border-color:var(--accent);background:var(--accent-soft)}
+.down{text-align:center;color:var(--ink-3);font-size:12px;line-height:1}
+.caption{font-size:13px;color:var(--ink-3);margin-top:8px}
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+.pill{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:1px 9px}
+.pill.ok{color:var(--ok);background:var(--ok-bg)} .pill.warn{color:var(--warn);background:var(--warn-bg)} .pill.ko{color:var(--ko);background:var(--ko-bg)}
+/* paliers */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+.step .pct{font:600 22px var(--f-mono)}
+.step p{font-size:13.5px;color:var(--ink-2);margin:4px 0 0}
+.note{border-left:3px solid var(--warn);background:var(--warn-bg);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:16px;font-size:14px;max-width:none}
+/* checklist */
+.check{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
+.check section{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+.check h3{font:600 12px var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.check ul{margin:0;padding-left:18px;font-size:14px}
+.check li{margin:4px 0}
+pre{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:14px 16px;overflow-x:auto;font:12.5px/1.55 var(--f-mono);margin:12px 0 0}
+pre .c{color:#8fa39d}
+.cmdhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
+.cmdhead h3{margin:0}
+.copy{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:6px;padding:3px 10px;cursor:pointer}
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.toc button{font:inherit;font-size:13px;color:var(--accent);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px;cursor:pointer}
+.toc button:hover{border-color:var(--accent)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;margin-top:22px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs a{display:flex;flex-direction:column;padding:10px 16px 9px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:15px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs a small{font-weight:400;font-size:12px;color:var(--ink-3)}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabs a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+h2,h3{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 76px)}
+.view>h2:first-of-type{margin-top:28px}
+.part{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:56px 0 -30px;padding-top:14px;border-top:1px solid var(--line)}
+.arch{overflow-x:auto;margin-top:12px}
+.arch-row{min-width:700px;display:grid;grid-template-columns:1fr 24px 1fr 24px 1.2fr 24px 1fr;align-items:stretch}
+.arch-row .arrow{font-size:16px}
+.arch-sub{min-width:700px;display:grid;grid-template-columns:1fr 24px 1fr 24px 1.2fr 24px 1fr;margin-top:8px}
+.arch-sub .box{grid-column:5}
+.arch .box .t small{font-weight:400;color:var(--ink-3)}
+.libs td:first-child{white-space:normal}
+.libs td:nth-child(2){font-family:var(--f-mono);font-size:13px}
+footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+@media (max-width:560px){.sep,.tool{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head><body>
+<div class="wrap">
+<header class="top">
+  <img class="brand-logo" alt="APRIL" width="101" height="24" src="data:image/png;base64,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">
+  <span class="sep" aria-hidden="true"></span>
+  <span class="tool">Hackathon IA</span>
+  <span class="spacer"></span>
+  <div class="theme" role="group" aria-label="Thème">
+    <button type="button" data-t="light">Clair</button><button type="button" data-t="dark">Sombre</button><button type="button" data-t="system">Système</button>
+  </div>
+</header>
+
+<div class="eyebrow" style="margin-top:28px">Hackathon IA APRIL × HEC IA · 21 et 22 novembre 2026</div>
+<h1>Brief techno du hackathon</h1>
+<p class="lead">Ce qu'il faut savoir pour démarrer : règles, connexion à votre compte Azure OpenAI, librairies utiles, OCR, architecture type et bonnes pratiques pour tenir le quota.</p>
+
+
+
+<section class="view" id="view-brief" data-view="brief" role="tabpanel" aria-labelledby="tab-brief">
+<nav class="toc" aria-label="Dans ce volet">
+  <button type="button" data-go="s-regles">Règles</button><button type="button" data-go="s-connexion">Connexion</button><button type="button" data-go="s-libs">Librairies</button><button type="button" data-go="s-ocr">OCR</button><button type="button" data-go="s-archi">Architecture</button><button type="button" data-go="s-quota">Tenir le quota</button>
+</nav>
+
+<h2 id="s-regles">Brief techno pour les teams</h2>
+<p>Le hackathon se déroule sur une souscription Azure dédiée. Chaque team dispose de son propre compte Azure OpenAI. Pour le reste, le choix des outils est libre : ce qui suit est une base pour démarrer vite, pas une liste imposée.</p>
+<div class="principle">
+  <div class="no"><b>Les cinq règles</b><span>Backend en Python. Seul LLM autorisé : le compte Azure OpenAI de la team. Données fictives ou anonymisées. Clé dans un fichier <code>.env</code>, jamais dans Git. Quota annoncé à respecter.</span></div>
+  <div class="yes"><b>Libre</b><span>Frameworks et librairies Python, interface, architecture. L'interface peut être en Python (Streamlit, Chainlit) ou un front web séparé.</span></div>
+  <div class="yes"><b>Fourni</b><span>Un point de terminaison, une clé, deux modèles de chat, <code>gpt-6.1-terra</code> et <code>gpt-6.1-sol</code>, et <code>text-embedding-3-small</code> pour les embeddings.</span></div>
+</div>
+
+<h2 id="s-connexion">Connexion à Azure OpenAI</h2>
+<p>Azure OpenAI accepte le SDK OpenAI standard. Il suffit de pointer vers le point de terminaison de la team. Le paramètre <code>model</code> prend le nom du déploiement, qui est ici le nom du modèle.</p>
+<div class="cmdhead"><h3>Fichier .env</h3><button type="button" class="copy" data-copy="cx-env">Copier</button></div>
+<pre id="cx-env">AZURE_OPENAI_ENDPOINT=https://aoai-hackathon-digital-team01.openai.azure.com
+AZURE_OPENAI_API_KEY=&lt;clé remise par l'orga&gt;
+AZURE_OPENAI_MODEL=gpt-6.1-terra</pre>
+<div class="cmdhead"><h3>Python · <code>pip install openai python-dotenv</code></h3><button type="button" class="copy" data-copy="cx-py">Copier</button></div>
+<pre id="cx-py">import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+client = OpenAI(
+    base_url=f"{os.environ['AZURE_OPENAI_ENDPOINT']}/openai/v1/",
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+)
+
+resp = client.chat.completions.create(
+    model=os.environ["AZURE_OPENAI_MODEL"],
+    messages=[{"role": "user", "content": "Résume ce sinistre en 3 lignes : ..."}],
+    max_completion_tokens=500,
+)
+print(resp.choices[0].message.content)
+print(resp.usage)  <span class="c"># tokens consommés par l'appel</span></pre>
+<p class="caption">Les frameworks (LangChain, LlamaIndex, Semantic Kernel…) ont tous un connecteur Azure OpenAI : ils prennent les mêmes trois valeurs.</p>
+
+<h3 id="s-libs" style="margin-top:28px">Librairies utiles, au choix</h3>
+<div class="tbl libs"><table>
+  <thead><tr><th>Besoin</th><th>Pistes</th><th>Quand</th></tr></thead>
+  <tbody>
+    <tr><td>Appeler le modèle</td><td>openai</td><td>Le plus simple pour démarrer. Suffit pour beaucoup de prototypes.</td></tr>
+    <tr><td>Sorties structurées</td><td>Pydantic</td><td>Extraire des champs d'un document ou classer un texte dans un format fiable.</td></tr>
+    <tr><td>Agents et outils</td><td>OpenAI Agents SDK, LangGraph, Semantic Kernel</td><td>Le modèle appelle des fonctions, enchaîne des étapes ou coordonne plusieurs agents.</td></tr>
+    <tr><td>Recherche dans des documents (RAG)</td><td>LlamaIndex, LangChain, Chroma, FAISS, LanceDB, pgvector</td><td>Répondre à partir d'une base documentaire. Une base vectorielle locale suffit.</td></tr>
+    <tr><td>Lecture de documents</td><td>pypdf, Docling, Unstructured</td><td>Transformer des PDF ou des fichiers Office en texte avant de les envoyer au modèle.</td></tr>
+    <tr><td>Interface de démo</td><td>Streamlit, Gradio, Chainlit</td><td>Montrer le résultat au jury en quelques lignes de Python. Un front web séparé reste possible, branché sur l'API.</td></tr>
+    <tr><td>API</td><td>FastAPI</td><td>Séparer l'interface du moteur, ou exposer le prototype à un autre outil.</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="s-ocr">Lire des documents et faire de l'OCR</h2>
+<p>Pas de service d'OCR Azure : l'OCR se fait en local, ou avec la vision du modèle. Commencer par le moins cher et ne monter d'un cran que si le résultat ne suffit pas.</p>
+<div class="steps">
+  <div class="step"><span class="pill ok">1 · Gratuit</span><h3 style="margin-top:6px">Texte natif du PDF</h3><p>Beaucoup de PDF contiennent déjà leur texte. PyMuPDF, pdfplumber ou pypdf le lisent instantanément, sans OCR.</p></div>
+  <div class="step"><span class="pill ok">2 · Gratuit</span><h3 style="margin-top:6px">OCR local</h3><p>Pour les scans propres. RapidOCR, Tesseract ou Docling, sur le poste. Les documents ne quittent pas la machine.</p></div>
+  <div class="step"><span class="pill warn">3 · Quota team</span><h3 style="margin-top:6px">Vision du modèle</h3><p>Pour les photos, les documents difficiles ou quelques pages : envoyer l'image au modèle (vérifier d'abord que gpt-6.1 accepte les images).</p></div>
+</div>
+
+<div class="tbl libs"><table>
+  <thead><tr><th>Outil</th><th>Installation</th><th>Points forts</th><th>Limites</th></tr></thead>
+  <tbody>
+    <tr><td>PyMuPDF, pdfplumber, pypdf</td><td>pip</td><td>Texte natif du PDF, instantané. pdfplumber lit aussi les tableaux simples.</td><td>Rien sur un scan ou une photo.</td></tr>
+    <tr><td>RapidOCR</td><td>pip</td><td>OCR rapide sur CPU, bonne qualité, aucun programme à installer.</td><td>Peu de mise en page.</td></tr>
+    <tr><td>Tesseract</td><td>pip + programme (brew, apt)</td><td>Le classique, léger, bon en français sur des documents propres.</td><td>Faible sur les tableaux et les photos de travers. Demande des droits d'installation.</td></tr>
+    <tr><td>EasyOCR, PaddleOCR, docTR</td><td>pip, modèles à télécharger</td><td>Plus robustes sur les photos et les scans moyens.</td><td>Lourds, lents sans GPU.</td></tr>
+    <tr><td>Docling</td><td>pip, modèles à télécharger</td><td>Restitue titres et tableaux en Markdown, prêt pour un RAG. OCR intégré si besoin.</td><td>Plus lent sur de gros volumes.</td></tr>
+  </tbody>
+</table></div>
+<div class="note"><b>À préparer avant le jour J.</b> La plupart de ces outils téléchargent leurs modèles au premier lancement, ce que le proxy peut bloquer. Installer et lancer une première fois avant l'événement. Aucun OCR local ne lit bien l'écriture manuscrite : passer alors par la vision du modèle.</div>
+
+<div class="cmdhead"><h3>Exemple · <code>pip install pymupdf rapidocr-onnxruntime</code></h3><button type="button" class="copy" data-copy="cx-ocr">Copier</button></div>
+<pre id="cx-ocr">import fitz  <span class="c"># PyMuPDF</span>
+from rapidocr_onnxruntime import RapidOCR
+
+ocr = RapidOCR()
+doc = fitz.open("sinistre.pdf")
+pages = []
+for page in doc:
+    text = page.get_text()
+    if len(text.strip()) &lt; 20:  <span class="c"># page scannée : pas de texte natif</span>
+        img = page.get_pixmap(dpi=200).tobytes("png")
+        result, _ = ocr(img)
+        text = "\n".join(line[1] for line in (result or []))
+    pages.append(text)
+print("\n\n".join(pages))</pre>
+
+<h2 id="s-archi">Architecture type</h2>
+<p>Une architecture simple, à adapter. Pour aller vite, l'interface, l'API et l'orchestration peuvent vivre dans un seul script Streamlit ou un notebook.</p>
+<div class="arch">
+  <div class="arch-row">
+    <div class="box"><div class="t">Interface</div><div class="d">Streamlit, Chainlit, web. Saisie, upload, affichage.</div></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="box"><div class="t">API <small>optionnelle</small></div><div class="d">FastAPI. Valide les entrées, porte la logique métier.</div></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="box hl"><div class="t">Orchestration LLM</div><div class="d">Prompts versionnés, sorties structurées, appel d'outils, agents.</div></div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="box"><div class="t">Azure OpenAI</div><div class="d">Compte de la team : gpt-6.1-terra, gpt-6.1-sol, embeddings.</div></div>
+  </div>
+  <div class="arch-sub">
+    <div class="box"><div class="t">Outils et données <small>au besoin</small></div><div class="d">RAG : découpage, embeddings, base vectorielle locale. Outils : fonctions Python, API métier simulées, fichiers de données fictives.</div></div>
+  </div>
+</div>
+<p class="caption">Le schéma se fait défiler horizontalement sur mobile.</p>
+
+<h3 id="s-quota" style="margin-top:28px">Pour tenir le quota</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Réflexe</th><th>Effet</th></tr></thead>
+  <tbody>
+    <tr><td>Choisir le bon modèle</td><td>Comparer les tarifs de gpt-6.1-terra et gpt-6.1-sol, et garder le moins cher pour le simple : classification, extraction courte, routage.</td></tr>
+    <tr><td>Borner les réponses</td><td><code>max_completion_tokens</code> sur chaque appel, des prompts qui demandent une réponse courte.</td></tr>
+    <tr><td>Garder un début de prompt stable</td><td>Les consignes fixes en tête du prompt profitent du cache, facturé moins cher.</td></tr>
+    <tr><td>Calculer les embeddings une fois</td><td>Les stocker dans la base vectorielle, ne pas les recalculer à chaque lancement.</td></tr>
+    <tr><td>Surveiller <code>usage</code></td><td>Chaque réponse indique ses tokens. Les journaliser aide à repérer une boucle ou un prompt trop long.</td></tr>
+  </tbody>
+</table></div>
+
+</section>
+
+
+
+<footer>Brief techno remis aux équipes. Point de terminaison et clé de votre compte : remis par votre encadrant.</footer>
+</div>
+
+<script>
+(function(){
+  const THEMES=['light','dark','system'],KEY='hack-infra-theme';
+  function applyTheme(t){window.__appTheme=t;const el=document.documentElement;
+    if(t==='system'){const vt=window.__viewerTheme;if(vt)el.setAttribute('data-theme',vt);else el.removeAttribute('data-theme');}
+    else el.setAttribute('data-theme',t);
+    document.querySelectorAll('.theme button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.t===t)));}
+  window.__viewerTheme=document.documentElement.getAttribute('data-theme');
+  new MutationObserver(()=>{const el=document.documentElement,v=el.getAttribute('data-theme');
+    if(window.__appTheme&&window.__appTheme!=='system'&&v!==window.__appTheme){window.__viewerTheme=v;el.setAttribute('data-theme',window.__appTheme);}})
+    .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  let t='light';try{t=localStorage.getItem(KEY)||'light';}catch(e){}
+  applyTheme(THEMES.includes(t)?t:'light');
+  document.querySelectorAll('.theme button').forEach(b=>b.addEventListener('click',()=>{applyTheme(b.dataset.t);try{localStorage.setItem(KEY,b.dataset.t);}catch(e){}}));
+  const VIEWS=['brief','infra'];
+  function route(){const h=location.hash.slice(1),v=VIEWS.includes(h)?h:'brief';
+    document.querySelectorAll('.view').forEach(s=>{s.hidden=s.dataset.view!==v;});
+    document.querySelectorAll('.tabs a').forEach(a=>{a.setAttribute('aria-selected',String(a.dataset.view===v));a.tabIndex=a.dataset.view===v?0:-1;});}
+  window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0});});
+  route();
+  document.querySelector('.tabs')?.addEventListener('keydown',e=>{if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+    const cur=VIEWS.indexOf((location.hash.slice(1))||'brief'),n=VIEWS[(cur+(e.key==='ArrowRight'?1:VIEWS.length-1))%VIEWS.length];
+    location.hash=n;document.getElementById('tab-'+n).focus();});
+  document.querySelectorAll('.toc button').forEach(b=>b.addEventListener('click',()=>{
+    const t=document.getElementById(b.dataset.go);if(t)t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}));
+  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.copy);const txt=el.textContent;
+    const done=()=>{b.textContent='Copié';setTimeout(()=>b.textContent='Copier',1500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>sel(el));}else sel(el);}));
+  function sel(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);}
+})();
+</script>
+</body></html>
