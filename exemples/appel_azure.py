@@ -5,8 +5,9 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
+endpoint = os.environ["AZURE_OPENAI_ENDPOINT"].rstrip("/").removesuffix("/openai/v1")
 client = OpenAI(
-    base_url=f"{os.environ['AZURE_OPENAI_ENDPOINT'].rstrip('/')}/openai/v1/",
+    base_url=f"{endpoint}/openai/v1/",
     api_key=os.environ["AZURE_OPENAI_API_KEY"],
 )
 

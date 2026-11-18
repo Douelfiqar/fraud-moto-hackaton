@@ -90,6 +90,11 @@ td:first-child{font-weight:600;white-space:nowrap}
 .check li{margin:4px 0}
 pre{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:14px 16px;overflow-x:auto;font:12.5px/1.55 var(--f-mono);margin:12px 0 0}
 pre .c{color:#8fa39d}
+.teampick{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:16px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.teampick label{font-weight:600}
+.teampick select{font:inherit;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.teampick .small-note{color:var(--ink-2);font-size:13px}
+.tn{color:var(--accent);font-weight:600}
 .cmdhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
 .cmdhead h3{margin:0}
 .copy{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:6px;padding:3px 10px;cursor:pointer}
@@ -139,21 +144,25 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-si
 
 <section class="view" id="view-brief" data-view="brief" role="tabpanel" aria-labelledby="tab-brief">
 <nav class="toc" aria-label="Dans ce volet">
-  <button type="button" data-go="s-regles">Règles</button><button type="button" data-go="s-connexion">Connexion</button><button type="button" data-go="s-libs">Librairies</button><button type="button" data-go="s-ocr">OCR</button><button type="button" data-go="s-archi">Architecture</button><button type="button" data-go="s-quota">Tenir le quota</button>
+  <button type="button" data-go="s-regles">Règles</button><button type="button" data-go="s-connexion">Connexion</button><button type="button" data-go="s-fichiers">Fichiers</button><button type="button" data-go="s-reseau">Réseau</button><button type="button" data-go="s-libs">Librairies</button><button type="button" data-go="s-ocr">OCR</button><button type="button" data-go="s-archi">Architecture</button><button type="button" data-go="s-quota">Tenir le quota</button>
 </nav>
 
-<h2 id="s-regles">Brief techno pour les teams</h2>
-<p>Le hackathon se déroule sur une souscription Azure dédiée. Chaque team dispose de son propre compte Azure OpenAI. Pour le reste, le choix des outils est libre : ce qui suit est une base pour démarrer vite, pas une liste imposée.</p>
+<h2 id="s-regles">Brief techno pour les équipes</h2>
+<p>Le hackathon se déroule sur une souscription Azure dédiée. Chaque équipe dispose de son propre compte Azure AI Foundry, dont elle appelle les modèles par l'API Azure OpenAI. Pour le reste, le choix des outils est libre : ce qui suit est une base pour démarrer vite, pas une liste imposée.</p>
 <div class="principle">
-  <div class="no"><b>Les cinq règles</b><span>Backend en Python. Seul LLM autorisé : le compte Azure OpenAI de la team. Données fictives ou anonymisées. Clé dans un fichier <code>.env</code>, jamais dans Git. Quota annoncé à respecter.</span></div>
+  <div class="no"><b>Les quatre règles</b><span>Backend en Python. Seul LLM autorisé : le compte Azure OpenAI de l'équipe. Clé dans un fichier <code>.env</code>, jamais dans Git. Quota annoncé à respecter.</span></div>
   <div class="yes"><b>Libre</b><span>Frameworks et librairies Python, interface, architecture. L'interface peut être en Python (Streamlit, Chainlit) ou un front web séparé.</span></div>
-  <div class="yes"><b>Fourni</b><span>Un point de terminaison, une clé, deux modèles de chat, <code>gpt-6.1-terra</code> et <code>gpt-6.1-sol</code>, et <code>text-embedding-3-small</code> pour les embeddings.</span></div>
+  <div class="yes"><b>Fourni</b><span>Un point de terminaison Azure OpenAI, une clé et trois modèles : <code>gpt-6.1-terra</code> et <code>gpt-6.1-sol</code> pour le chat (tous deux acceptent aussi les images), et <code>text-embedding-3-small</code> pour les embeddings. S'y ajoutent un partage de fichiers Azure Files par équipe et le partage commun <code>common</code>.</span></div>
 </div>
 
 <h2 id="s-connexion">Connexion à Azure OpenAI</h2>
-<p>Azure OpenAI accepte le SDK OpenAI standard. Il suffit de pointer vers le point de terminaison de la team. Le paramètre <code>model</code> prend le nom du déploiement, qui est ici le nom du modèle.</p>
+<p>Azure OpenAI accepte le SDK OpenAI standard. Il suffit de pointer vers le point de terminaison de l'équipe. Le paramètre <code>model</code> prend le nom du déploiement, qui est ici le nom du modèle : <code>gpt-6.1-terra</code>, <code>gpt-6.1-sol</code> ou <code>text-embedding-3-small</code>.</p>
+<p><code>AZURE_OPENAI_ENDPOINT</code> est l'adresse de base de votre équipe, sans <code>/openai/v1</code> : le code ajoute ce suffixe lui-même, et l'enlève s'il a été collé par erreur. Reprenez exactement l'adresse remise par l'organisation.</p>
+<div class="teampick"><label for="teamSel">Votre équipe</label>
+  <select id="teamSel"><option value="XX">choisir…</option><option value="01">team01</option><option value="02">team02</option><option value="03">team03</option><option value="04">team04</option><option value="05">team05</option><option value="06">team06</option><option value="07">team07</option><option value="08">team08</option><option value="09">team09</option><option value="10">team10</option><option value="11">team11</option><option value="12">team12</option><option value="13">team13</option></select>
+  <span class="small-note">Remplit le numéro d'équipe dans les fichiers .env ci-dessous.</span></div>
 <div class="cmdhead"><h3>Fichier .env</h3><button type="button" class="copy" data-copy="cx-env">Copier</button></div>
-<pre id="cx-env">AZURE_OPENAI_ENDPOINT=https://aoai-hackathon-digital-team01.openai.azure.com
+<pre id="cx-env">AZURE_OPENAI_ENDPOINT=https://aoai-hackathon-digital-team<span class="tn">XX</span>.openai.azure.com
 AZURE_OPENAI_API_KEY=&lt;clé remise par l'orga&gt;
 AZURE_OPENAI_MODEL=gpt-6.1-terra</pre>
 <div class="cmdhead"><h3>Python · <code>pip install openai python-dotenv</code></h3><button type="button" class="copy" data-copy="cx-py">Copier</button></div>
@@ -162,8 +171,9 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
+endpoint = os.environ["AZURE_OPENAI_ENDPOINT"].rstrip("/").removesuffix("/openai/v1")
 client = OpenAI(
-    base_url=f"{os.environ['AZURE_OPENAI_ENDPOINT']}/openai/v1/",
+    base_url=f"{endpoint}/openai/v1/",
     api_key=os.environ["AZURE_OPENAI_API_KEY"],
 )
 
@@ -175,6 +185,61 @@ resp = client.chat.completions.create(
 print(resp.choices[0].message.content)
 print(resp.usage)  <span class="c"># tokens consommés par l'appel</span></pre>
 <p class="caption">Les frameworks (LangChain, LlamaIndex, Semantic Kernel…) ont tous un connecteur Azure OpenAI : ils prennent les mêmes trois valeurs.</p>
+<h3 style="margin-top:22px">En cas d'erreur</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Message</th><th>Cause</th></tr></thead>
+  <tbody>
+    <tr><td><code>getaddrinfo failed</code></td><td>Point de terminaison mal saisi.</td></tr>
+    <tr><td><code>401 Unauthorized</code></td><td>Clé erronée.</td></tr>
+    <tr><td><code>404 Not Found</code></td><td>Mauvais nom de modèle (déploiement).</td></tr>
+    <tr><td><code>403 Access denied due to Virtual Network/Firewall rules</code></td><td>Réseau non autorisé (voir « Réseau et accès »).</td></tr>
+    <tr><td><code>429 Too Many Requests</code></td><td>Trop de requêtes ou de tokens par minute sur le déploiement. Attendre quelques secondes et réessayer : le SDK <code>openai</code> réessaie déjà deux fois, <code>OpenAI(..., max_retries=5)</code> en ajoute. Limiter les appels en parallèle.</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="s-fichiers">Accéder aux fichiers (Azure Files)</h2>
+<p>Chaque équipe dispose d'un partage Azure Files à son nom (lecture, écriture, suppression) et du partage <code>common</code> en lecture seule. Chaque partage a son jeton SAS, valable jusqu'au 23 novembre 8h UTC. Ajoutez dans le <code>.env</code>, sans le « ? » initial du SAS :</p>
+<div class="cmdhead"><h3>Fichier .env (suite)</h3><button type="button" class="copy" data-copy="cx-files-env">Copier</button></div>
+<pre id="cx-files-env">AZURE_FILES_ACCOUNT_URL=https://sthackathondigital.file.core.windows.net
+AZURE_FILES_TEAM_SHARE=team<span class="tn">XX</span>
+AZURE_FILES_TEAM_SAS=&lt;SAS du partage de l'équipe&gt;
+AZURE_FILES_COMMON_SHARE=common
+AZURE_FILES_COMMON_SAS=&lt;SAS du partage common&gt;</pre>
+<div class="cmdhead"><h3>Python · <code>pip install azure-storage-file-share</code></h3><button type="button" class="copy" data-copy="cx-files-py">Copier</button></div>
+<pre id="cx-files-py">import os
+from dotenv import load_dotenv
+from azure.storage.fileshare import ShareClient
+
+load_dotenv()
+common = ShareClient(os.environ["AZURE_FILES_ACCOUNT_URL"],
+                     share_name=os.environ["AZURE_FILES_COMMON_SHARE"],
+                     credential=os.environ["AZURE_FILES_COMMON_SAS"])
+for item in common.list_directories_and_files():
+    print(item["name"])
+data = common.get_file_client("exemple.pdf").download_file().readall()</pre>
+<h3 style="margin-top:22px">En cas d'erreur</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Message</th><th>Cause</th></tr></thead>
+  <tbody>
+    <tr><td><code>401 NoAuthenticationInformation</code></td><td>SAS incomplet (<code>sig=</code> vide) ou <code>.env</code> non enregistré.</td></tr>
+    <tr><td><code>403 AuthorizationFailure</code></td><td>Réseau non autorisé (voir « Réseau et accès »).</td></tr>
+    <tr><td><code>403 AuthenticationFailed</code></td><td>SAS erroné ou expiré.</td></tr>
+    <tr><td><code>403 AuthorizationPermissionMismatch</code></td><td>Droit absent (normal en écriture sur <code>common</code>).</td></tr>
+    <tr><td><code>ShareNotFound</code></td><td>Nom de partage erroné.</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="s-reseau">Réseau et accès</h2>
+<p>Azure OpenAI et Azure Files ne répondent que depuis les réseaux autorisés. Ailleurs, vous obtiendrez une erreur 403 (<code>Access denied due to Virtual Network/Firewall rules</code> pour le modèle, <code>AuthorizationFailure</code> pour les fichiers) : vos clés ne sont pas en cause. Avant le jour J, vous pouvez tout installer et tester l'OCR hors de ces réseaux ; seuls les appels au modèle et aux fichiers attendront.</p>
+<p>Git en SSH : si <code>git push</code> reste bloqué, le port 22 est filtré. Ajoutez ceci dans <code>~/.ssh/config</code> pour passer par le port 443, ou clonez en HTTPS :</p>
+<div class="cmdhead"><h3>~/.ssh/config</h3><button type="button" class="copy" data-copy="cx-ssh">Copier</button></div>
+<pre id="cx-ssh">Host gitlab.com
+  HostName altssh.gitlab.com
+  Port 443
+  User git</pre>
+<script>
+document.getElementById('teamSel').addEventListener('change',e=>document.querySelectorAll('.tn').forEach(s=>s.textContent=e.target.value));
+</script>
 
 <h3 id="s-libs" style="margin-top:28px">Librairies utiles, au choix</h3>
 <div class="tbl libs"><table>
@@ -191,11 +256,11 @@ print(resp.usage)  <span class="c"># tokens consommés par l'appel</span></pre>
 </table></div>
 
 <h2 id="s-ocr">Lire des documents et faire de l'OCR</h2>
-<p>Pas de service d'OCR Azure : l'OCR se fait en local, ou avec la vision du modèle. Commencer par le moins cher et ne monter d'un cran que si le résultat ne suffit pas.</p>
+<p>Aucun service d'OCR n'est fourni sur Azure : les documents se lisent sur votre poste, par leur texte natif ou un OCR local, ou par la vision du modèle. Commencez par le moins cher et ne montez d'un cran que si le résultat ne suffit pas.</p>
 <div class="steps">
   <div class="step"><span class="pill ok">1 · Gratuit</span><h3 style="margin-top:6px">Texte natif du PDF</h3><p>Beaucoup de PDF contiennent déjà leur texte. PyMuPDF, pdfplumber ou pypdf le lisent instantanément, sans OCR.</p></div>
   <div class="step"><span class="pill ok">2 · Gratuit</span><h3 style="margin-top:6px">OCR local</h3><p>Pour les scans propres. RapidOCR, Tesseract ou Docling, sur le poste. Les documents ne quittent pas la machine.</p></div>
-  <div class="step"><span class="pill warn">3 · Quota team</span><h3 style="margin-top:6px">Vision du modèle</h3><p>Pour les photos, les documents difficiles ou quelques pages : envoyer l'image au modèle (vérifier d'abord que gpt-6.1 accepte les images).</p></div>
+  <div class="step"><span class="pill warn">3 · Quota de l'équipe</span><h3 style="margin-top:6px">Vision du modèle</h3><p>Pour les photos, les documents difficiles ou quelques pages : envoyer l'image à <code>gpt-6.1-terra</code> ou <code>gpt-6.1-sol</code>, qui acceptent tous deux les images.</p></div>
 </div>
 
 <div class="tbl libs"><table>
@@ -203,12 +268,12 @@ print(resp.usage)  <span class="c"># tokens consommés par l'appel</span></pre>
   <tbody>
     <tr><td>PyMuPDF, pdfplumber, pypdf</td><td>pip</td><td>Texte natif du PDF, instantané. pdfplumber lit aussi les tableaux simples.</td><td>Rien sur un scan ou une photo.</td></tr>
     <tr><td>RapidOCR</td><td>pip</td><td>OCR rapide sur CPU, bonne qualité, aucun programme à installer.</td><td>Peu de mise en page.</td></tr>
-    <tr><td>Tesseract</td><td>pip + programme (brew, apt)</td><td>Le classique, léger, bon en français sur des documents propres.</td><td>Faible sur les tableaux et les photos de travers. Demande des droits d'installation.</td></tr>
+    <tr><td>Tesseract</td><td>pip + programme (brew, apt, winget) avec le pack de langue français</td><td>Le classique, léger, bon en français sur des documents propres.</td><td>Faible sur les tableaux et les photos de travers. Demande des droits d'installation.</td></tr>
     <tr><td>EasyOCR, PaddleOCR, docTR</td><td>pip, modèles à télécharger</td><td>Plus robustes sur les photos et les scans moyens.</td><td>Lourds, lents sans GPU.</td></tr>
     <tr><td>Docling</td><td>pip, modèles à télécharger</td><td>Restitue titres et tableaux en Markdown, prêt pour un RAG. OCR intégré si besoin.</td><td>Plus lent sur de gros volumes.</td></tr>
   </tbody>
 </table></div>
-<div class="note"><b>À préparer avant le jour J.</b> La plupart de ces outils téléchargent leurs modèles au premier lancement, ce que le proxy peut bloquer. Installer et lancer une première fois avant l'événement. Aucun OCR local ne lit bien l'écriture manuscrite : passer alors par la vision du modèle.</div>
+<div class="note"><b>À préparer avant le jour J.</b> La plupart de ces outils téléchargent leurs modèles au premier lancement, ce que le proxy peut bloquer. Installez-les et lancez-les une première fois avant l'événement. Aucun OCR local ne lit bien l'écriture manuscrite : passez alors par la vision du modèle.</div>
 
 <div class="cmdhead"><h3>Exemple · <code>pip install pymupdf rapidocr-onnxruntime</code></h3><button type="button" class="copy" data-copy="cx-ocr">Copier</button></div>
 <pre id="cx-ocr">import fitz  <span class="c"># PyMuPDF</span>
@@ -236,10 +301,10 @@ print("\n\n".join(pages))</pre>
     <div class="arrow" aria-hidden="true">→</div>
     <div class="box hl"><div class="t">Orchestration LLM</div><div class="d">Prompts versionnés, sorties structurées, appel d'outils, agents.</div></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="box"><div class="t">Azure OpenAI</div><div class="d">Compte de la team : gpt-6.1-terra, gpt-6.1-sol, embeddings.</div></div>
+    <div class="box"><div class="t">Azure OpenAI</div><div class="d">Compte de l'équipe : gpt-6.1-terra, gpt-6.1-sol, text-embedding-3-small.</div></div>
   </div>
   <div class="arch-sub">
-    <div class="box"><div class="t">Outils et données <small>au besoin</small></div><div class="d">RAG : découpage, embeddings, base vectorielle locale. Outils : fonctions Python, API métier simulées, fichiers de données fictives.</div></div>
+    <div class="box"><div class="t">Outils et données <small>au besoin</small></div><div class="d">RAG : découpage, embeddings, base vectorielle locale. Fichiers : partage Azure Files de l'équipe et partage <code>common</code>. Outils : fonctions Python, API métier simulées, fichiers de données fictives.</div></div>
   </div>
 </div>
 <p class="caption">Le schéma se fait défiler horizontalement sur mobile.</p>
