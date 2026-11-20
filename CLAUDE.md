@@ -39,8 +39,8 @@ Pas de service d'OCR Azure : texte natif des PDF (PyMuPDF, pdfplumber), OCR loca
 
 Les règles complètes et le barème sont dans `docs/regles-du-jeu.html`.
 
-- **Cas 1 · Fraude documentaire Moto** : pour chaque document du jeu (permis, pièces d'identité et titres de séjour, RIB, relevés d'information, cartes grises), dire s'il est faux. +1 point par faux démasqué ; au-delà de 5 % de faux positifs sur l'ensemble du jeu, −2 points par point de pourcentage supplémentaire.
-- **Cas 2 · Segmentation des bateaux Marine** : remettre le bon segment sur les 200 bateaux dont il a été effacé (+5 chacun), signaler des modèles mal segmentés dans la base (+10 par anomalie validée, 50 soumises au plus), ajouter des modèles absents de la base trouvés sur vos deux sites d'annonces (+25 par modèle validé, année 2025 ou plus, 25 au plus, 5 au plus par segment). Anomalies et nouveaux modèles sont validés par le métier pendant des créneaux de 15 minutes (samedi 15h–16h et 18h–19h, dimanche 11h–12h et 13h–14h) ; envoyez votre fichier au plus tard 15 minutes avant votre passage.
+- **Cas 1 · Fraude documentaire Moto** : pour chaque document du jeu (permis, pièces d'identité et titres de séjour, RIB, relevés d'information, cartes grises), dire s'il est faux. +1 point par faux démasqué ; au-delà de 3 % de faux positifs sur l'ensemble du jeu, −2 points par point de pourcentage supplémentaire.
+- **Cas 2 · Segmentation des bateaux Marine** : remettre le bon segment sur les 200 bateaux dont il a été effacé (+5 chacun), signaler des modèles mal segmentés dans la base (+10 par anomalie validée, 50 soumises au plus), ajouter des modèles absents de la base trouvés sur vos deux sites d'annonces (+25 par modèle validé, année 2025 ou plus, 25 au plus, 5 au plus par segment). Anomalies et nouveaux modèles sont validés par le métier pendant des créneaux de 15 minutes (samedi 15h–16h et 18h–19h, dimanche 11h–12h et 13h45–14h45) ; envoyez votre fichier au plus tard 15 minutes avant votre passage.
 - Une note technique (qualité de l'usage de l'IA, du code, de la démo, maîtrise de la consommation) s'ajoute au score.
 
 ## Déposer des réponses
