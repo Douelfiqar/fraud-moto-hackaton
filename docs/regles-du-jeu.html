@@ -59,6 +59,33 @@
   
 
   <h2>Cas 1 · fraude documentaire Moto</h2>
+  <h3>Contexte métier</h3>
+  <p class="muted">Repris du pré-read participants.</p>
+  <p>Devis (véhicule, conducteur, antécédents d'assurance) → Tarif et souscription (coordonnées, IBAN, paiement, signature électronique) → Envoi des justificatifs par l'assuré (sous 2 mois, sinon le contrat est annulé) → Contrôle des justificatifs (cohérence avec la déclaration, détection des faux ; si KO, le contrat est annulé). Le cas d'usage porte sur cette dernière étape.</p>
+  <h3>Ce que le client déclare, et le document qui doit le prouver</h3>
+  <table><thead><tr><th>Bloc du formulaire</th><th>Informations déclarées</th><th>Justificatif associé</th></tr></thead><tbody>
+    <tr><td>Identification du véhicule</td><td>N° d'immatriculation, marque et modèle, cylindrée, puissance, date d'achat, date de mise en circulation</td><td>Carte grise</td></tr>
+    <tr><td>Informations conducteur</td><td>Nom, prénom, date de naissance, permis obtenus (AM, A1, A2, A…), adresse postale</td><td>Permis de conduire, carte d'identité ou titre de séjour</td></tr>
+    <tr><td>Antécédents d'assurance</td><td>Coefficient bonus-malus, nombre de mois d'assurance moto et auto, sinistres déclarés, faits aggravants (suspension, annulation, résiliation)</td><td>Relevé d'information (relevé de sinistres) moto et auto</td></tr>
+    <tr><td>Paiement</td><td>Nom, numéro d'IBAN</td><td>RIB</td></tr>
+  </tbody></table>
+  <h3>Les schémas de fraude visés</h3>
+  <table><thead><tr><th>Schéma</th><th>En pratique</th><th>Document en jeu</th></tr></thead><tbody>
+    <tr><td>Minorer ou dissimuler ses antécédents</td><td>Mentir sur ses sinistres ou son bonus-malus pour payer une cotisation moins élevée</td><td>Relevé d'information</td></tr>
+    <tr><td>Falsifier son permis</td><td>Falsifier un permis ou une attestation pour conduire un deux-roues, ou pour un véhicule plus puissant (permis A au lieu de A2)</td><td>Permis de conduire</td></tr>
+    <tr><td>Dissimuler le conducteur réel</td><td>Souscrire une assurance malgré l'absence de titre de séjour valable, cacher l'identité du propriétaire d'un RIB</td><td>Permis de conduire, titre de séjour, RIB</td></tr>
+    <tr><td>Assurer un véhicule qui n'existe pas ou modifier ses caractéristiques</td><td>Souscrire puis déclarer un vol ou un incendie pour être indemnisé ; modifier les caractéristiques du véhicule pour payer moins cher ou le conduire sans le permis adapté</td><td>Carte grise</td></tr>
+  </tbody></table>
+  <h3>Ce que vous cherchez</h3>
+  <ul>
+    <li>Altérations de l'image : pixels retouchés, polices suspectes.</li>
+    <li>Constitution non conforme : contrôle des éléments attendus (voir les fiches pratiques).</li>
+    <li>Documents générés par IA.</li>
+    <li>Incohérences au sein des documents.</li>
+    <li>Hors périmètre : signature électronique et code PDF (les documents sont réenregistrés dans la GED, ces informations sont perdues).</li>
+  </ul>
+  <p>Les documents sont normés : le format d'un permis de conduire, d'une carte grise ou d'un relevé d'information émis par un même assureur n'est pas censé varier, sauf si un assureur adopte un nouveau format de relevé ou si un nouveau modèle de permis est mis en circulation.</p>
+  <p>Détecter une suspicion, pas conclure seul. L'outil signale les documents suspects ; la confirmation passe par une validation humaine : pour un relevé d'information, APRIL interroge l'assureur qui l'a émis ; pour la carte grise, APRIL vérifie via le Fichier des Véhicules Assurés (FVA) ; pour les cartes d'identité, les titres de séjour, les RIB et les permis, APRIL se base sur la cohérence des données et les écarts de typographie.</p>
   <p>Pour chaque document du jeu, vous indiquez s’il est faux, quelle que soit la nature du document (relevé d’information, permis de conduire, RIB, carte grise, pièce d’identité ou titre de séjour) et quelle que soit la nature de la fraude (altération de l’image, constitution non conforme, document généré par IA, incohérence au sein du document).</p>
   <div class="mx">
     <div class="h"></div><div class="h">Vous répondez « frauduleux »</div><div class="h">Vous répondez « sain »</div><div class="h">Document absent du fichier</div>
@@ -76,6 +103,18 @@
 
   
   <h2>Cas 2 · segmentation bateaux Marine</h2>
+  <h3>Contexte métier</h3>
+  <p class="muted">Repris du pré-read participants.</p>
+  <p>APRIL Marine s'appuie sur une base de 26 500 modèles de bateaux, chacun rattaché à l'un des 19 segments tarifaires. Le tarif part d'un tarif de base, qui ne tient compte que de l'âge et de la valeur du bateau. Le segment du modèle détermine ensuite une surcote ou une décote, voire un refus d'assurer : c'est ce qui reflète le risque propre à chaque type de bateau. Le tarif est ensuite communiqué automatiquement au client.</p>
+  <p>Caractéristiques du modèle (puissance, longueur, largeur…) → Classification dans l'un des 19 segments → Surcote, décote ou refus d'assurer → Réponse automatisée à la demande de tarif.</p>
+  <p>Le problème : environ 500 nouveaux modèles arrivent sur le marché chaque année. Ils sont ajoutés à la main dans la base ; tant qu'un modèle n'est pas segmenté, le client n'obtient pas de tarif automatique.</p>
+  <h3>L'outil visé</h3>
+  <ul>
+    <li>parcourt en continu les sites des constructeurs et les médias spécialisés ;</li>
+    <li>repère de lui-même les nouveaux bateaux ;</li>
+    <li>propose un segment pour chacun ;</li>
+    <li>soumet cette proposition à la validation d'une personne d'APRIL Marine.</li>
+  </ul>
   <p>Trois objectifs, notés séparément. Vos points s’affichent dans le classement en direct, au fil des validations.</p>
   <table><thead><tr><th>Objectif</th><th style="text-align:right">Points</th><th>Règle</th></tr></thead><tbody>
     <tr><td><b>1 · Segments effacés</b></td><td class="n pos">+5</td><td>Par bateau de la liste des 200 remis dans son bon segment. C’est votre dernier dépôt qui compte.</td></tr>
