@@ -148,34 +148,57 @@ footer{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-si
 </nav>
 
 <h2 id="s-regles">Brief techno pour les équipes</h2>
-<p>Le hackathon se déroule sur une souscription Azure dédiée. Chaque équipe dispose de son propre compte Azure AI Foundry, dont elle appelle les modèles par l'API Azure OpenAI. Pour le reste, le choix des outils est libre : ce qui suit est une base pour démarrer vite, pas une liste imposée.</p>
+<p>Chaque équipe dispose de trois déploiements dédiés sur Azure OpenAI. Selon ce que l'orga vous remet : une clé API (compte dédié à l'équipe), ou des identifiants Entra (compte OpenAI PPR d'APRIL). Le même script marche dans les deux cas. Pour le reste, le choix des outils est libre : ce qui suit est une base pour démarrer vite, pas une liste imposée.</p>
 <div class="principle">
-  <div class="no"><b>Les quatre règles</b><span>Backend en Python. Seul LLM autorisé : le compte Azure OpenAI de l'équipe. Clé dans un fichier <code>.env</code>, jamais dans Git. Quota annoncé à respecter.</span></div>
+  <div class="no"><b>Les quatre règles</b><span>Backend en Python. Seul LLM autorisé : les déploiements Azure OpenAI de l'équipe. Clé API ou identifiants Entra dans un fichier <code>.env</code>, aucun secret dans Git. Quota annoncé à respecter.</span></div>
   <div class="yes"><b>Libre</b><span>Frameworks et librairies Python, interface, architecture. L'interface peut être en Python (Streamlit, Chainlit) ou un front web séparé.</span></div>
-  <div class="yes"><b>Fourni</b><span>Un point de terminaison Azure OpenAI, une clé et trois modèles : <code>gpt-6.1-terra</code> et <code>gpt-6.1-sol</code> pour le chat (tous deux acceptent aussi les images), et <code>text-embedding-3-small</code> pour les embeddings. S'y ajoutent un partage de fichiers Azure Files par équipe et le partage commun <code>common</code>.</span></div>
+  <div class="yes"><b>Fourni</b><span>Un point de terminaison Azure OpenAI, une clé API ou des identifiants Entra (client_id + secret, valables jusqu'au 25/11) selon ce que l'orga vous remet, et trois déploiements dédiés à l'équipe : <code>gpt-6.1-terra</code> et <code>gpt-6.1-sol</code> pour le chat (tous deux acceptent aussi les images), et <code>text-embedding-3-small</code> pour les embeddings. S'y ajoutent un partage de fichiers Azure Files par équipe et le partage commun <code>common</code>.</span></div>
 </div>
 
 <h2 id="s-connexion">Connexion à Azure OpenAI</h2>
-<p>Azure OpenAI accepte le SDK OpenAI standard. Il suffit de pointer vers le point de terminaison de l'équipe. Le paramètre <code>model</code> prend le nom du déploiement, qui est ici le nom du modèle : <code>gpt-6.1-terra</code>, <code>gpt-6.1-sol</code> ou <code>text-embedding-3-small</code>.</p>
+<p>Azure OpenAI accepte le SDK OpenAI standard. Il suffit de pointer vers le point de terminaison de l'équipe. Selon ce que l'orga vous remet :</p>
+<ul><li><b>une clé API</b> : compte <code>aoai-hackathon-digital-teamNN</code>, variable <code>AZURE_OPENAI_API_KEY</code> ; le paramètre <code>model</code> prend le nom court (<code>gpt-6.1-terra</code>, <code>gpt-6.1-sol</code>, <code>text-embedding-3-small</code>) ;</li>
+<li><b>des identifiants Entra</b> : client_id + secret ; le paramètre <code>model</code> prend le nom complet du déploiement de l'équipe, par exemple <code>gpt-6.1-terra-teamNN-2026-10-26</code>.</li></ul>
+<p>Le script détecte le mode tout seul : si <code>AZURE_OPENAI_API_KEY</code> est renseignée, il l'utilise, sinon il passe par Entra. Au-delà du débit du déploiement (1000 kTPM en mode Entra), erreurs 429.</p>
 <p><code>AZURE_OPENAI_ENDPOINT</code> est l'adresse de base de votre équipe, sans <code>/openai/v1</code> : le code ajoute ce suffixe lui-même, et l'enlève s'il a été collé par erreur. Reprenez exactement l'adresse remise par l'organisation.</p>
-<div class="teampick"><label for="teamSel">Votre équipe</label>
-  <select id="teamSel"><option value="XX">choisir…</option><option value="01">team01</option><option value="02">team02</option><option value="03">team03</option><option value="04">team04</option><option value="05">team05</option><option value="06">team06</option><option value="07">team07</option><option value="08">team08</option><option value="09">team09</option><option value="10">team10</option><option value="11">team11</option><option value="12">team12</option><option value="13">team13</option></select>
-  <span class="small-note">Remplit le numéro d'équipe dans les fichiers .env ci-dessous.</span></div>
-<div class="cmdhead"><h3>Fichier .env</h3><button type="button" class="copy" data-copy="cx-env">Copier</button></div>
-<pre id="cx-env">AZURE_OPENAI_ENDPOINT=https://aoai-hackathon-digital-team<span class="tn">XX</span>.openai.azure.com
-AZURE_OPENAI_API_KEY=&lt;clé remise par l'orga&gt;
-AZURE_OPENAI_MODEL=gpt-6.1-terra</pre>
-<div class="cmdhead"><h3>Python · <code>pip install openai python-dotenv</code></h3><button type="button" class="copy" data-copy="cx-py">Copier</button></div>
+<div class="teampick"><label for="modeSel">Ce que l'orga vous a remis</label>
+  <select id="modeSel"><option value="cle">Clé API</option><option value="entra">Identifiants Entra</option></select>
+  <label for="teamSel">Votre équipe</label>
+  <select id="teamSel"><option value="XX">choisir…</option><option value="01">team01</option><option value="02">team02</option><option value="03">team03</option><option value="04">team04</option><option value="05">team05</option><option value="06">team06</option><option value="07">team07</option><option value="08">team08</option><option value="09">team09</option><option value="10">team10</option></select>
+  <span class="small-note">Remplit le point de terminaison et les noms de déploiement de l'équipe dans les fichiers .env ci-dessous.</span></div>
+<div class="cmdhead"><h3>Fichier .env</h3><button type="button" class="copy" data-copy="cx-env-cle" id="cx-env-copy">Copier</button></div>
+<pre id="cx-env-cle">AZURE_OPENAI_ENDPOINT=<span class="ep">&lt;point de terminaison remis par l'orga&gt;</span>
+AZURE_OPENAI_API_KEY=&lt;clé API remise par l'orga&gt;
+AZURE_OPENAI_MODEL=<span class="terra">gpt-6.1-terra</span>
+AZURE_OPENAI_MODEL_SOL=<span class="sol">gpt-6.1-sol</span>
+AZURE_OPENAI_EMBEDDING=<span class="emb">text-embedding-3-small</span></pre>
+<pre id="cx-env-entra" hidden>AZURE_OPENAI_ENDPOINT=<span class="ep">&lt;point de terminaison remis par l'orga&gt;</span>
+AZURE_TENANT_ID=7c98f49f-ac31-43eb-888a-72a17520cdda
+AZURE_CLIENT_ID=&lt;client_id remis par l'orga&gt;
+AZURE_CLIENT_SECRET=&lt;secret remis par l'orga&gt;
+AZURE_OPENAI_MODEL=<span class="terra">gpt-6.1-terra-teamXX-2026-10-26</span>
+AZURE_OPENAI_MODEL_SOL=<span class="sol">gpt-6.1-sol-teamXX-2026-09-29</span>
+AZURE_OPENAI_EMBEDDING=<span class="emb">text-embedding-3-small-teamXX-1</span></pre>
+<div class="cmdhead"><h3>Python · <code>pip install openai azure-identity python-dotenv</code></h3><button type="button" class="copy" data-copy="cx-py">Copier</button></div>
 <pre id="cx-py">import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
 endpoint = os.environ["AZURE_OPENAI_ENDPOINT"].rstrip("/").removesuffix("/openai/v1")
-client = OpenAI(
-    base_url=f"{endpoint}/openai/v1/",
-    api_key=os.environ["AZURE_OPENAI_API_KEY"],
-)
+api_key = os.environ.get("AZURE_OPENAI_API_KEY", "").strip()
+if api_key:  <span class="c"># mode clé API</span>
+    client = OpenAI(base_url=f"{endpoint}/openai/v1/", api_key=api_key)
+else:  <span class="c"># mode Entra</span>
+    from azure.identity import ClientSecretCredential, get_bearer_token_provider
+    credential = ClientSecretCredential(
+        os.environ["AZURE_TENANT_ID"],
+        os.environ["AZURE_CLIENT_ID"],
+        os.environ["AZURE_CLIENT_SECRET"],
+    )
+    token_provider = get_bearer_token_provider(credential, "https://cognitiveservices.azure.com/.default")
+    <span class="c"># Le SDK openai accepte un callable : le jeton Entra est renouvelé automatiquement.</span>
+    client = OpenAI(base_url=f"{endpoint}/openai/v1/", api_key=token_provider)
 
 resp = client.chat.completions.create(
     model=os.environ["AZURE_OPENAI_MODEL"],
@@ -183,17 +206,20 @@ resp = client.chat.completions.create(
     max_completion_tokens=500,
 )
 print(resp.choices[0].message.content)
-print(resp.usage)  <span class="c"># tokens consommés par l'appel</span></pre>
-<p class="caption">Les frameworks (LangChain, LlamaIndex, Semantic Kernel…) ont tous un connecteur Azure OpenAI : ils prennent les mêmes trois valeurs.</p>
+print(resp.usage)  <span class="c"># tokens consommés par l'appel</span>
+
+emb = client.embeddings.create(model=os.environ["AZURE_OPENAI_EMBEDDING"], input="relevé d'information")
+print(len(emb.data[0].embedding), "dimensions")</pre>
+<p class="caption">Les frameworks (LangChain, LlamaIndex, Semantic Kernel…) ont tous un connecteur Azure OpenAI : ils acceptent la même clé API ou le même <code>token_provider</code> Entra, et les mêmes noms de déploiement.</p>
 <h3 style="margin-top:22px">En cas d'erreur</h3>
 <div class="tbl"><table>
   <thead><tr><th>Message</th><th>Cause</th></tr></thead>
   <tbody>
     <tr><td><code>getaddrinfo failed</code></td><td>Point de terminaison mal saisi.</td></tr>
-    <tr><td><code>401 Unauthorized</code></td><td>Clé erronée.</td></tr>
-    <tr><td><code>404 Not Found</code></td><td>Mauvais nom de modèle (déploiement).</td></tr>
+    <tr><td><code>401 Unauthorized</code></td><td>Clé ou identifiants erronés : clé API mal copiée ou régénérée, ou client_id, secret ou tenant erroné, secret expiré (après le 25/11).</td></tr>
+    <tr><td><code>404 Not Found</code></td><td>Mauvais nom de déploiement : nom court (<code>gpt-6.1-terra</code>) avec une clé API, nom complet de l'équipe avec Entra.</td></tr>
     <tr><td><code>403 Access denied due to Virtual Network/Firewall rules</code></td><td>Réseau non autorisé (voir « Réseau et accès »).</td></tr>
-    <tr><td><code>429 Too Many Requests</code></td><td>Trop de requêtes ou de tokens par minute sur le déploiement. Attendre quelques secondes et réessayer : le SDK <code>openai</code> réessaie déjà deux fois, <code>OpenAI(..., max_retries=5)</code> en ajoute. Limiter les appels en parallèle.</td></tr>
+    <tr><td><code>429 Too Many Requests</code></td><td>Débit du déploiement dépassé (1000 kTPM en mode Entra), ou trop de requêtes) sur le déploiement. Attendre quelques secondes et réessayer : le SDK <code>openai</code> réessaie déjà deux fois, <code>OpenAI(..., max_retries=5)</code> en ajoute. Limiter les appels en parallèle.</td></tr>
   </tbody>
 </table></div>
 
@@ -230,7 +256,7 @@ data = common.get_file_client("exemple.pdf").download_file().readall()</pre>
 </table></div>
 
 <h2 id="s-reseau">Réseau et accès</h2>
-<p>Azure OpenAI et Azure Files ne répondent que depuis les réseaux autorisés. Ailleurs, vous obtiendrez une erreur 403 (<code>Access denied due to Virtual Network/Firewall rules</code> pour le modèle, <code>AuthorizationFailure</code> pour les fichiers) : vos clés ne sont pas en cause. Avant le jour J, vous pouvez tout installer et tester l'OCR hors de ces réseaux ; seuls les appels au modèle et aux fichiers attendront.</p>
+<p>Azure OpenAI et Azure Files ne répondent que depuis les réseaux autorisés. Ailleurs, vous obtiendrez une erreur 403 (<code>Access denied due to Virtual Network/Firewall rules</code> pour le modèle, <code>AuthorizationFailure</code> pour les fichiers) : vos identifiants ne sont pas en cause. L'accès est autorisé depuis le réseau APRIL (proxy). Avant le jour J, vous pouvez tout installer et tester l'OCR hors de ces réseaux ; seuls les appels au modèle et aux fichiers attendront.</p>
 <p>Git en SSH : si <code>git push</code> reste bloqué, le port 22 est filtré. Ajoutez ceci dans <code>~/.ssh/config</code> pour passer par le port 443, ou clonez en HTTPS :</p>
 <div class="cmdhead"><h3>~/.ssh/config</h3><button type="button" class="copy" data-copy="cx-ssh">Copier</button></div>
 <pre id="cx-ssh">Host gitlab.com
@@ -238,7 +264,19 @@ data = common.get_file_client("exemple.pdf").download_file().readall()</pre>
   Port 443
   User git</pre>
 <script>
-document.getElementById('teamSel').addEventListener('change',e=>document.querySelectorAll('.tn').forEach(s=>s.textContent=e.target.value));
+// Endpoint et déploiements selon le mode : clé API (compte par équipe) ou Entra (PPR Sweden 01-05, France 06-10)
+function majEnv(){const m=document.getElementById('modeSel').value,n=document.getElementById('teamSel').value,t='team'+n,ok=n!=='XX';
+  const env=document.getElementById('cx-env-'+m);
+  document.getElementById('cx-env-cle').hidden=m!=='cle';document.getElementById('cx-env-entra').hidden=m!=='entra';
+  document.getElementById('cx-env-copy').dataset.copy=env.id;
+  const ep=!ok?'<point de terminaison remis par l\'orga>':m==='cle'?`https://aoai-hackathon-digital-${t}.openai.azure.com`
+    :`https://${+n<=5?'swedencentral1':'francecentral'}-april-ppr.openai.azure.com`;
+  const v=m==='cle'?{ep,terra:'gpt-6.1-terra',sol:'gpt-6.1-sol',emb:'text-embedding-3-small'}
+    :{ep,terra:`gpt-6.1-terra-${t}-2026-10-26`,sol:`gpt-6.1-sol-${t}-2026-09-29`,emb:`text-embedding-3-small-${t}-1`};
+  for(const k in v)env.querySelectorAll('.'+k).forEach(s=>s.textContent=v[k]);
+  document.querySelectorAll('.tn').forEach(s=>s.textContent=n);}
+document.getElementById('modeSel').addEventListener('change',majEnv);
+document.getElementById('teamSel').addEventListener('change',majEnv);
 </script>
 
 <h3 id="s-libs" style="margin-top:28px">Librairies utiles, au choix</h3>
@@ -301,7 +339,7 @@ print("\n\n".join(pages))</pre>
     <div class="arrow" aria-hidden="true">→</div>
     <div class="box hl"><div class="t">Orchestration LLM</div><div class="d">Prompts versionnés, sorties structurées, appel d'outils, agents.</div></div>
     <div class="arrow" aria-hidden="true">→</div>
-    <div class="box"><div class="t">Azure OpenAI</div><div class="d">Compte de l'équipe : gpt-6.1-terra, gpt-6.1-sol, text-embedding-3-small.</div></div>
+    <div class="box"><div class="t">Azure OpenAI</div><div class="d">Déploiements de l'équipe : gpt-6.1-terra, gpt-6.1-sol, text-embedding-3-small.</div></div>
   </div>
   <div class="arch-sub">
     <div class="box"><div class="t">Outils et données <small>au besoin</small></div><div class="d">RAG : découpage, embeddings, base vectorielle locale. Fichiers : partage Azure Files de l'équipe et partage <code>common</code>. Outils : fonctions Python, API métier simulées, fichiers de données fictives.</div></div>
@@ -325,7 +363,7 @@ print("\n\n".join(pages))</pre>
 
 
 
-<footer>Brief techno remis aux équipes. Point de terminaison et clé de votre compte : remis par votre encadrant.</footer>
+<footer>Brief techno remis aux équipes. Point de terminaison et clé API ou identifiants Entra de l'équipe : remis par votre encadrant.</footer>
 </div>
 
 <script>

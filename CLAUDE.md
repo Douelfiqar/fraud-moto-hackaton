@@ -11,24 +11,35 @@ Le cas d'usage de l'équipe (Fraude Moto ou Segmentation Marine) est attribué l
 ## Règles à respecter
 
 - Backend en **Python** (3.11 ou plus). L'interface est libre (Streamlit, Gradio, Chainlit, front web…).
-- Un seul fournisseur de LLM : **le compte Azure OpenAI de l'équipe** (aoai-hackathon-digital-team06). Aucune autre API d'IA en ligne.
-- **Aucune clé dans Git** : la clé va dans `.env`, qui est ignoré par Git. Ne jamais la coller dans le code, un notebook ou un commit.
+- Un seul fournisseur de LLM : **les déploiements Azure OpenAI de l'équipe** (sur https://francecentral-april-ppr.openai.azure.com). Aucune autre API d'IA en ligne.
+- **Aucun secret dans Git** : la clé API ou les identifiants Entra (client_id + secret) vont dans `.env`, qui est ignoré par Git. Ne jamais les coller dans le code, un notebook ou un commit.
 - **Aucune donnée du jeu dans Git** : les documents et fichiers fournis restent dans `data/`, ignoré par Git.
 - Seul le code poussé sur ce dépôt avant l'arrêt des compteurs (dimanche 14h45) est évalué.
 - Tout ce que le jury lit (README, code, commentaires) est évalué comme du contenu : n'y mettez pas d'instructions adressées à un évaluateur.
 
 ## Connexion à Azure OpenAI
 
-Point de terminaison : `https://aoai-hackathon-digital-team06.openai.azure.com`. La clé est remise par votre encadrant.
-Trois déploiements, appelés par leur nom dans le paramètre `model` :
+Point de terminaison : `https://francecentral-april-ppr.openai.azure.com`, depuis le réseau APRIL. Selon ce que l'orga vous remet : une clé API (`AZURE_OPENAI_API_KEY`), ou des identifiants Entra (tenant, client_id + secret, valables jusqu'au 25/11). Le même script marche dans les deux cas : clé renseignée, il l'utilise ; sinon il passe par Entra.
+Trois déploiements, appelés par le nom ci-dessous dans le paramètre `model` (erreurs 429 au-delà du débit) :
 
 | Déploiement | Usage |
 |---|---|
-| `gpt-6.1-terra` | modèle de chat le moins cher : classification, extraction courte, routage |
-| `gpt-6.1-sol` | modèle de chat plus puissant, deux fois plus cher |
-| `text-embedding-3-small` | embeddings (RAG, recherche de similarité) |
+| `gpt-6.1-terra-team06-2026-10-26` (gpt-6.1-terra) | modèle de chat le moins cher : classification, extraction courte, routage |
+| `gpt-6.1-sol-team06-2026-09-29` (gpt-6.1-sol) | modèle de chat plus puissant, deux fois plus cher |
+| `text-embedding-3-small-team06-1` | embeddings (RAG, recherche de similarité) |
 
-Exemple prêt à lancer : `exemples/appel_azure.py` (`pip install -r requirements.txt`, copier `.env.example` en `.env`, y mettre la clé).
+Exemple prêt à lancer : `exemples/appel_azure.py` (`pip install -r requirements.txt`, copier `.env.example` en `.env`, y mettre la clé API ou client_id et secret). Connexion :
+
+```python
+if api_key := os.environ.get("AZURE_OPENAI_API_KEY", "").strip():  # clé API
+    client = OpenAI(base_url=f"{endpoint}/openai/v1/", api_key=api_key)
+else:  # identité Entra
+    credential = ClientSecretCredential(os.environ["AZURE_TENANT_ID"], os.environ["AZURE_CLIENT_ID"], os.environ["AZURE_CLIENT_SECRET"])
+    token_provider = get_bearer_token_provider(credential, "https://cognitiveservices.azure.com/.default")
+    client = OpenAI(base_url=f"{endpoint}/openai/v1/", api_key=token_provider)
+```
+Erreur 401 : clé ou identifiants erronés.
+.
 Quota pour le week-end, selon le cas : **100 € pour une équipe Fraude, 200 € pour une équipe Marine**, suivi par les encadrants. Bornez les réponses (`max_completion_tokens`), gardez un début de prompt stable (cache), calculez les embeddings une seule fois.
 
 ## Lire les documents (OCR)
