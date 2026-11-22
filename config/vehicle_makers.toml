@@ -1,0 +1,81 @@
+# Maker codes of vehicles (world manufacturer identifier, ISO 3780): the first three characters of a
+# vehicle identification number name its maker.
+#
+# Used by the check releve_vehicle_category: a relevé that classes a vehicle as a car while its
+# identification number names a maker of two-wheelers (or the reverse) contradicts itself.
+# Used also to tell what kind of vehicle a relevé describes (see the makes at the end of the file).
+#
+# Only codes that cover ONE kind of vehicle are listed. A code shared by cars and other vehicles
+# (Suzuki JSA: cars and quads; Piaggio ZAP: scooters and small vans) proves nothing and is left out:
+# for such a maker, and for any maker that is not listed, the check says it cannot tell.
+# Codes checked against the public list "Vehicle Identification Numbers (VIN codes) / World
+# Manufacturer Identifier" (Wikibooks). To cover another maker, add its code to one of the two lists.
+
+# Makers of motorcycles, scooters and mopeds.
+two_wheelers = [
+  "JYA",         # Yamaha
+  "JS1",         # Suzuki
+  "JH2",         # Honda
+  "JKA", "JKB",  # Kawasaki
+  "VBK",         # KTM
+  "ZDM",         # Ducati
+  "SMT",         # Triumph Motorcycles
+  "WB1",         # BMW Motorrad
+  "ZD4",         # Aprilia
+  "ZGU",         # Moto Guzzi
+  "VG5",         # MBK, Yamaha Motor (France)
+  "VGA",         # Peugeot Motocycles
+  "1HD",         # Harley-Davidson
+  "RFB",         # Kymco
+  "ME3",         # Royal Enfield
+]
+
+# Makers of cars and vans.
+cars = [
+  "VF1",                # Renault
+  "VF3", "VR3",         # Peugeot
+  "VF7", "VR7",         # Citroën
+  "VR1",                # DS Automobiles
+  "UU1",                # Dacia
+  "WVW",                # Volkswagen
+  "WAU",                # Audi
+  "WBA",                # BMW
+  "WDB", "WDD", "W1K",  # Mercedes-Benz
+  "W0L",                # Opel
+  "WF0",                # Ford (Germany)
+  "WP0",                # Porsche
+  "TMB",                # Škoda
+  "VSS",                # Seat
+  "ZFA",                # Fiat
+  "ZAR",                # Alfa Romeo
+  "SAL",                # Land Rover
+  "YV1",                # Volvo
+  "SJN", "JN1",         # Nissan
+  "VNK", "JTD",         # Toyota
+  "TSM",                # Suzuki (Hungary)
+  "JHM", "SHH",         # Honda
+  "JMZ",                # Mazda
+  "KMH",                # Hyundai
+  "KNA", "U5Y",         # Kia
+  "5YJ",                # Tesla
+]
+
+# Makes, as a relevé prints them: used when the relevé names the make but prints no identification
+# number (check bonus_malus_licence, which only judges the relevé of a car). Same principle: only
+# makers of one kind of vehicle. A maker of both cars and two-wheelers (Honda, Suzuki, BMW, Peugeot,
+# Seat) is in neither list, because its name alone says nothing. No model is listed, on purpose: a
+# list of models is never complete.
+# A make listed as a maker of two-wheelers is never judged as a car, so when in doubt a make goes
+# there (Triumph and KTM also built a few cars, Piaggio small vans).
+two_wheeler_makes = [
+  "yamaha", "kawasaki", "ducati", "triumph", "ktm", "aprilia", "moto guzzi", "mv agusta",
+  "harley", "indian", "royal enfield", "husqvarna", "benelli", "piaggio", "vespa", "gilera",
+  "derbi", "kymco", "sym", "hyosung", "daelim", "keeway", "cfmoto", "zontes", "mash", "mbk",
+  "sherco", "rieju", "fantic", "gasgas", "niu",
+]
+car_makes = [
+  "renault", "citroen", "dacia", "alpine", "simca", "volkswagen", "audi", "skoda", "cupra",
+  "mercedes", "opel", "ford", "porsche", "smart", "fiat", "alfa romeo", "lancia", "toyota",
+  "lexus", "nissan", "mazda", "mitsubishi", "subaru", "hyundai", "kia", "volvo", "saab",
+  "land rover", "jaguar", "mini", "jeep", "chevrolet", "tesla", "lada",
+]

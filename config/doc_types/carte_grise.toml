@@ -1,0 +1,68 @@
+# Carte grise (certificat d'immatriculation).
+# Source: fiche « Carte grise » (09/2022): points A, B, C.1, C.3, D.1, D.2.1, D.3, J.1,
+# P.1, P.2, P.3 and I; and « Quel permis pour quel véhicule » (10/2026) for J.1 categories.
+# The plate, the VIN, the make and the formula number are printed in the body, on the
+# detachable coupon and in the two machine-readable lines at the bottom (line 1: CRFRA,
+# plate, check digit, VIN, check digit, first registration YYMMDD, check digit, category),
+# so every copy is asked for.
+name = "carte_grise"
+family = "carte_grise"
+label = "Carte grise (certificat d'immatriculation)"
+natures = ["Carte grise"]
+
+fields = [
+  { name = "immatriculation", label = "A : numéro d'immatriculation (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "date_premiere_immatriculation", label = "B : date de première immatriculation", kind = "date" },
+  { name = "titulaire", label = "C.1 : titulaire du certificat", kind = "text" },
+  { name = "adresse", label = "C.3 : adresse du titulaire", kind = "text" },
+  { name = "marque", label = "D.1 : marque (recopier aussi chaque autre exemplaire imprimé)", kind = "text" },
+  { name = "type_variante", label = "D.2 : type, variante, version", kind = "code" },
+  { name = "cnit", label = "D.2.1 : code national d'identification du type", kind = "code" },
+  { name = "modele", label = "D.3 : dénomination commerciale (modèle)", kind = "text" },
+  { name = "numero_identification", label = "E : numéro d'identification du véhicule (numéro de série ; recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "date_certificat", label = "I : date de l'immatriculation à laquelle se rapporte le certificat", kind = "date" },
+  { name = "genre", label = "J.1 : genre national (MTL, MTT1, MTT2, CL...)", kind = "code" },
+  { name = "cylindree", label = "P.1 : cylindrée en cm3", kind = "number" },
+  { name = "puissance_kw", label = "P.2 : puissance nette maximale en kW", kind = "number" },
+  { name = "energie", label = "P.3 : type de carburant ou source d'énergie", kind = "code" },
+  { name = "numero_formule", label = "Numéro de formule du certificat (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "mrz", label = "Lignes de lecture automatique au bas du certificat (deux lignes, la première commence par CRFRA)", kind = "code" },
+]
+
+elements = [
+  "Mention CERTIFICAT D'IMMATRICULATION",
+  "Numéro d'immatriculation en tête du document",
+  "Rubriques codées (A, B, C.1, D.1, E, J.1, P.1...)",
+  "Numéro de formule",
+]
+
+date_order = [["date_premiere_immatriculation", "date_certificat"]]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Certificat d'immatriculation français : chaque rubrique est précédée de son code harmonisé européen (A, B, C.1, D.1, E, P.1...). Pas de photo."
+source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés) ; Fiche « Carte grise » (09/2022)"
+layout = "fixed"  # one national model, set by regulation
+labels = [
+  { text = "CERTIFICAT D'IMMATRICULATION", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "A", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "B", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "C.1", source = "Fiche « Carte grise » (09/2022)" },
+  { text = "C.3", source = "Fiche « Carte grise » (09/2022)" },
+  { text = "D.1", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "D.2", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "D.2.1", source = "Fiche « Carte grise » (09/2022)" },
+  { text = "D.3", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "E", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "I", source = "Fiche « Carte grise » (09/2022)" },
+  { text = "J.1", source = "Fiche « Carte grise » (09/2022)" },
+  { text = "P.1", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "P.2", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { text = "P.3", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+]
+zones = [
+  { name = "Rubriques précédées de leur code (A, B, C.1, D.1...)", where = "", source = "Directive 1999/37/CE, annexe I (certificat d'immatriculation, codes harmonisés)" },
+  { name = "Numéro d'immatriculation (rubrique A)", where = "", source = "Fiche « Carte grise » (09/2022)" },
+]
+field_order = []

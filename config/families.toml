@@ -1,0 +1,41 @@
+# Which family each document nature belongs to.
+#
+# The nature comes from the organisers' spreadsheet (column "nature du document").
+# The family decides which checks apply to a document in later steps.
+#
+# Rules are tried from top to bottom and the first family with a matching phrase
+# wins, so the more specific phrases come first: a "relevé d'identité bancaire"
+# is a RIB, not a "relevé d'information".
+# Phrases are compared without accents or capitals, as whole words.
+# A nature that matches no rule gets no family and a "nature_unmapped" warning.
+
+[[family]]
+name = "rib"
+phrases = ["releve d'identite bancaire", "rib", "iban"]
+
+[[family]]
+name = "releve"
+phrases = ["releve d'information", "releve de sinistres", "releve de sinistralite"]
+
+[[family]]
+name = "carte_grise"
+phrases = ["carte grise", "certificat d'immatriculation"]
+
+# Identity covers ID cards, passports, residence permits and the two kinds of attestation.
+[[family]]
+name = "identity"
+phrases = [
+    "piece d'identite",
+    "carte d'identite",
+    "carte nationale d'identite",
+    "passeport",
+    "titre de sejour",
+    "permis de sejour",
+    "attestation de demande d'asile",
+    "attestation de prolongation",
+    "recepisse",
+]
+
+[[family]]
+name = "licence"
+phrases = ["permis de conduire", "permis"]

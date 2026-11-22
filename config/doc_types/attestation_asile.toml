@@ -1,0 +1,35 @@
+# Attestation de demande d'asile.
+name = "attestation_asile"
+family = "identity"
+label = "Attestation de demande d'asile"
+natures = ["Attestation de demande d'asile"]
+
+fields = [
+  { name = "nom", label = "Nom", kind = "text" },
+  { name = "prenoms", label = "Prénoms", kind = "text" },
+  { name = "date_naissance", label = "Date de naissance", kind = "date" },
+  { name = "nationalite", label = "Nationalité", kind = "text" },
+  { name = "numero_etranger", label = "Numéro d'étranger ou d'enregistrement (recopier aussi chaque autre exemplaire)", kind = "code" },
+  { name = "date_delivrance", label = "Date de délivrance", kind = "date" },
+  { name = "date_expiration", label = "Date de fin de validité (valable jusqu'au)", kind = "date" },
+  { name = "date_premier_enregistrement", label = "Date de premier enregistrement en guichet unique", kind = "date" },
+  { name = "autorite", label = "Préfecture ou autorité qui délivre", kind = "text" },
+]
+
+elements = ["Photo du titulaire", "Mention ATTESTATION DE DEMANDE D'ASILE", "Cachet ou signature de l'autorité"]
+
+date_order = [["date_naissance", "date_delivrance"], ["date_delivrance", "date_expiration"]]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Attestation de demande d'asile délivrée par la préfecture : intitulé, identité et photo du demandeur, dates de délivrance et de fin de validité."
+source = "Connaissance générale du document préfectoral (aucune fiche APRIL)"
+layout = "varies"  # prefecture documents vary by period
+labels = [
+  { text = "ATTESTATION DE DEMANDE D'ASILE", source = "Connaissance générale du document préfectoral (aucune fiche APRIL)" },
+]
+zones = [
+  { name = "Photo du titulaire", where = "", source = "Connaissance générale du document préfectoral (aucune fiche APRIL)" },
+]
+field_order = []

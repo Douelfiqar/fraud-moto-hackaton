@@ -1,0 +1,40 @@
+# Permis de conduire, nouveau modèle (carte), verso: one line per category, with the date
+# it was obtained (column 10) and the end of its validity (column 11).
+# Source: fiche « Permis de conduire » (11/2025): AM 50 cm3, A1 125 cm3, A2 47.5 hp, A unrestricted.
+name = "permis_nouveau_verso"
+family = "licence"
+label = "Permis de conduire au format carte, verso"
+natures = ["Permis de conduire nouveau modèle, verso"]
+
+fields = [
+  { name = "date_categorie_AM", label = "Catégorie AM : date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_A1", label = "Catégorie A1 : date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_A2", label = "Catégorie A2 : date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_A", label = "Catégorie A : date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_B", label = "Catégorie B : date d'obtention (colonne 10)", kind = "date" },
+  { name = "fin_validite_A", label = "Catégorie A : date de fin de validité (colonne 11)", kind = "date" },
+  { name = "fin_validite_A2", label = "Catégorie A2 : date de fin de validité (colonne 11)", kind = "date" },
+  { name = "restrictions", label = "Restrictions ou mentions additionnelles (colonne 12)", kind = "code" },
+]
+
+elements = ["Tableau des catégories avec les colonnes 9 à 12", "Pictogrammes des catégories"]
+
+# No order between A2 and A: a card re-issued to the holder of an older A can date A2 at the 2013 reform.
+date_order = []
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Permis de conduire au modèle européen, verso : tableau des catégories avec leurs pictogrammes, en colonnes 9 (catégorie), 10 (date de délivrance de la catégorie), 11 (date de fin de validité) et 12 (restrictions)."
+source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire) ; Fiche « Permis de conduire » (11/2025)"
+layout = "fixed"  # the European card model (directive 2006/126/CE)
+labels = [
+  { text = "9.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "10.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "11.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "12.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+]
+zones = [
+  { name = "Tableau des catégories avec leurs pictogrammes", where = "", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+]
+field_order = ["9.", "10.", "11.", "12."]

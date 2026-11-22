@@ -1,0 +1,20 @@
+# Length of the driving licence number (item 5 of the European model), country by country.
+#
+# Used by the check foreign_licence_number: a foreign licence whose number does not have the
+# length its country gives it was typed again or made up.
+#
+# Only countries whose numbering the team verified are listed; a licence of any other country is
+# not judged. To cover another country, add an entry: the words by which the card names the
+# country (compared without accents or capitals), the number of characters, and the source.
+
+[[country]]
+name = "Italie"
+words = ["italia", "italie", "italy", "italien"]
+length = 10  # two characters, seven characters, one control letter
+source = "Ministère italien des infrastructures et des transports, circulaire n° 30039 du 24 octobre 2011"
+
+[[country]]
+name = "Espagne"
+words = ["espana", "espagne", "spain", "espanol"]
+length = 9  # the holder's identity number: eight digits and a letter (DNI), or a letter, seven digits and a letter (NIE)
+source = "En Espagne, la rubrique 5 du permis reprend le numéro de DNI ou de NIE du titulaire, lettre comprise"

@@ -1,0 +1,32 @@
+# Permis de conduire, ancien modèle (papier rose), face avec les catégories et leurs dates.
+# Source: fiche « Permis de conduire » (11/2025): validity column to watch; before 2013, AM was BSR.
+name = "permis_ancien_verso"
+family = "licence"
+label = "Permis de conduire ancien modèle (papier rose), face avec les catégories"
+natures = ["Permis de conduire ancien modèle, verso"]
+
+fields = [
+  { name = "date_categorie_AM", label = "Catégorie AM ou BSR : date d'obtention", kind = "date" },
+  { name = "date_categorie_A1", label = "Catégorie A1 (125 cm3) : date d'obtention", kind = "date" },
+  { name = "date_categorie_A2", label = "Catégorie A2 : date d'obtention", kind = "date" },
+  { name = "date_categorie_A", label = "Catégorie A : date d'obtention", kind = "date" },
+  { name = "date_categorie_B", label = "Catégorie B : date d'obtention", kind = "date" },
+  { name = "mentions", label = "Mentions et restrictions (bridage, équivalences...)", kind = "text" },
+]
+
+elements = ["Tableau des catégories", "Cachets de la préfecture en face des catégories obtenues"]
+
+# No order between A2 and A: a card re-issued to the holder of an older A can date A2 at the 2013 reform.
+date_order = []
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Ancien permis de conduire français (papier rose), face des catégories : une ligne par catégorie avec sa date d'obtention, et une colonne prévue pour les dates de validité."
+source = "Fiche « Permis de conduire » (11/2025)"
+layout = "varies"  # several versions of the pink licence over the years
+labels = []
+zones = [
+  { name = "Tableau des catégories avec leurs dates", where = "", source = "Fiche « Permis de conduire » (11/2025)" },
+]
+field_order = []

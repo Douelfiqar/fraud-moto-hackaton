@@ -21,3 +21,13 @@ build/
 # Divers
 .DS_Store
 *.log
+
+# Ingest output: records and page pictures made from the documents, never in Git
+cache/
+
+# Left by "pip install -e ."
+*.egg-info/
+
+# Local assistant settings
+.claude/
+

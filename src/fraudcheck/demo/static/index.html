@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contrôle des justificatifs</title>
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+  <link rel="preload" href="/static/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+
+  <!-- Icons, drawn for this page: one stroke width, one 24 x 24 grid. -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5.5c0 4.2 2.9 7.9 7 9.5 4.1-1.6 7-5.3 7-9.5V6z"/><polyline points="9 12 11.3 14.3 15.2 10"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><polyline points="5 12.5 10 17.5 19 7.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle cx="12" cy="17.3" r=".7" fill="currentColor"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.3 1-1.3 1.9"/><circle cx="12" cy="16.9" r=".7" fill="currentColor"/></symbol>
+    <symbol id="i-skip" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><line x1="6" y1="18" x2="18" y2="6"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4"/><polyline points="7 9 12 4 17 9"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12"/><polyline points="7 11 12 16 17 11"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+    <symbol id="i-pages" viewBox="0 0 24 24"><rect x="8" y="3" width="11" height="14" rx="1.5"/><path d="M5 7v12.5A1.5 1.5 0 0 0 6.5 21H16"/></symbol>
+    <symbol id="i-lines" viewBox="0 0 24 24"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="14.5" x2="15" y2="14.5"/><line x1="9" y1="18" x2="13" y2="18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><line x1="16" y1="16" x2="21" y2="21"/></symbol>
+    <symbol id="i-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><line x1="16" y1="16" x2="21" y2="21"/><line x1="8.5" y1="11" x2="13.5" y2="11"/><line x1="11" y1="8.5" x2="11" y2="13.5"/></symbol>
+    <symbol id="i-zoom-out" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><line x1="16" y1="16" x2="21" y2="21"/><line x1="8.5" y1="11" x2="13.5" y2="11"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><polyline points="3.5 6.5 5 8 7.5 5"/><line x1="11" y1="6.5" x2="20.5" y2="6.5"/><polyline points="3.5 12 5 13.5 7.5 10.5"/><line x1="11" y1="12" x2="20.5" y2="12"/><polyline points="3.5 17.5 5 19 7.5 16"/><line x1="11" y1="17.5" x2="20.5" y2="17.5"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><line x1="7.5" y1="20" x2="16.5" y2="20"/><line x1="5" y1="7" x2="19" y2="7"/><path d="M7.5 13.5a2.6 2.6 0 0 1-5 0L5 7z"/><path d="M21.5 13.5a2.6 2.6 0 0 1-5 0L19 7z"/></symbol>
+    <symbol id="i-user-check" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><polyline points="16 11.5 18.2 13.7 22 9.5"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><line x1="4" y1="4" x2="20" y2="20"/></symbol>
+    <symbol id="i-turn" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><polyline points="20 3.5 20 7.5 16 7.5"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><line x1="5" y1="7" x2="19" y2="7"/><path d="M9 7V4.5h6V7"/><path d="M7 7l1 13h8l1-13"/></symbol>
+    <symbol id="i-archive" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="5" rx="1"/><path d="M5.5 9v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V9"/><line x1="10" y1="13" x2="14" y2="13"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><polygon points="13 3 5 13.5 11.5 13.5 10.5 21 19 10 12.5 10"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7.5 12 12 15 14"/></symbol>
+  </svg>
+
+  <div class="app">
+    <aside class="side" aria-label="Documents de la session">
+      <div class="brand">
+        <span class="brand__mark"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+        <span class="brand__text"><strong>Contrôle des justificatifs</strong><span>Assurance moto</span></span>
+      </div>
+      <button type="button" id="add-button" class="button button--onside">
+        <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg><span>Ajouter des documents</span>
+      </button>
+      <h2 class="side__title">Documents <span id="doc-count" class="side__count"></span></h2>
+      <ul id="doc-list" class="doc-list"></ul>
+      <p id="doc-empty" class="side__empty">Aucun document pour l'instant. Déposez un fichier pour commencer.</p>
+      <div class="side__foot">
+        <div id="mode" class="mode"></div>
+        <a id="journal" class="side__link" href="/api/journal.csv" download="decisions.csv" hidden>
+          <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span>Exporter les décisions (CSV)</span>
+        </a>
+      </div>
+    </aside>
+
+    <main id="main" class="main" tabindex="-1">
+      <!-- Shown when no document is open: add documents, and how the tool works. -->
+      <section id="view-add" class="view view--add">
+        <header class="hero">
+          <h1>Ce justificatif est-il authentique ?</h1>
+          <p>L'outil contrôle le document et explique ce qu'il trouve. <strong>C'est vous qui décidez.</strong></p>
+        </header>
+        <button type="button" id="dropzone" class="dropzone">
+          <span class="dropzone__icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg></span>
+          <span class="dropzone__title">Déposez un ou plusieurs documents</span>
+          <span class="dropzone__hint">ou cliquez pour choisir des fichiers · PDF, PNG ou JPG</span>
+        </button>
+        <p id="privacy" class="privacy"></p>
+        <h2 class="section-title">Comment l'outil travaille</h2>
+        <ol id="how" class="how"></ol>
+      </section>
+
+      <!-- One document: its pages on the left, the control and the decision on the right. -->
+      <section id="view-doc" class="view view--doc" hidden>
+        <header class="doc-head">
+          <div class="doc-head__title">
+            <h1 id="doc-name"></h1>
+            <p id="doc-sub"></p>
+          </div>
+          <div class="doc-head__actions">
+            <button type="button" id="doc-retype" class="button button--quiet" hidden>Changer le type</button>
+            <button type="button" id="doc-remove" class="icon-button" aria-label="Retirer ce document de la session" title="Retirer ce document">
+              <svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg>
+            </button>
+          </div>
+        </header>
+        <ol id="stepper" class="stepper" aria-label="Étapes du contrôle"></ol>
+        <div class="doc-body">
+          <section id="viewer" class="viewer" aria-label="Document">
+            <div class="viewer__bar">
+              <button type="button" id="blur-toggle" class="button button--tool" aria-pressed="true"></button>
+              <span class="viewer__group">
+                <button type="button" id="zoom-out" class="icon-button" aria-label="Réduire"><svg class="icon" aria-hidden="true"><use href="#i-zoom-out"/></svg></button>
+                <span id="zoom-label" class="viewer__label"></span>
+                <button type="button" id="zoom-in" class="icon-button" aria-label="Agrandir"><svg class="icon" aria-hidden="true"><use href="#i-zoom-in"/></svg></button>
+                <button type="button" id="turn" class="icon-button" aria-label="Tourner la page d'un quart de tour"><svg class="icon" aria-hidden="true"><use href="#i-turn"/></svg></button>
+              </span>
+              <span id="pager" class="viewer__group">
+                <button type="button" id="page-prev" class="icon-button" aria-label="Page précédente"><svg class="icon" aria-hidden="true"><use href="#i-left"/></svg></button>
+                <span id="page-label" class="viewer__label"></span>
+                <button type="button" id="page-next" class="icon-button" aria-label="Page suivante"><svg class="icon" aria-hidden="true"><use href="#i-right"/></svg></button>
+              </span>
+            </div>
+            <div id="canvas" class="viewer__canvas">
+              <img id="page-img" class="viewer__page" alt="">
+              <div class="viewer__beam" aria-hidden="true"></div>
+              <button type="button" id="unblur" class="viewer__veil">
+                <svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>
+                <strong>Document flouté</strong>
+                <span>Ce justificatif appartient à une personne réelle. Cliquez pour l'afficher.</span>
+              </button>
+              <div id="stamp" class="stamp" hidden></div>
+            </div>
+          </section>
+          <section id="panel" class="panel" aria-label="Contrôle et décision"></section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <input id="file-input" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" multiple hidden>
+  <div id="drop-veil" class="drop-veil" hidden><div><svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>Déposez les documents ici</div></div>
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">Cette page a besoin de JavaScript.</p></noscript>
+</body>
+</html>

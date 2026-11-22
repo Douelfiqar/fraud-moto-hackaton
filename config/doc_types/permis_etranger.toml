@@ -1,0 +1,41 @@
+# Permis de conduire étranger, recto ou verso. Layouts vary by country.
+name = "permis_etranger"
+family = "licence"
+label = "Permis de conduire étranger (recto ou verso)"
+natures = ["Permis de conduire étranger, recto", "Permis de conduire étranger, verso"]
+
+fields = [
+  { name = "pays", label = "Pays de délivrance", kind = "text" },
+  { name = "nom", label = "Nom", kind = "text" },
+  { name = "prenoms", label = "Prénoms", kind = "text" },
+  { name = "date_naissance", label = "Date de naissance", kind = "date" },
+  { name = "date_delivrance", label = "Date de délivrance", kind = "date" },
+  { name = "date_expiration", label = "Date de fin de validité", kind = "date" },
+  { name = "numero_permis", label = "Numéro du permis (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "categories", label = "Catégories de véhicules", kind = "text" },
+  { name = "date_categorie_A2", label = "Catégorie A2 : date d'obtention, si elle est imprimée", kind = "date" },
+  { name = "date_categorie_A", label = "Catégorie A : date d'obtention, si elle est imprimée", kind = "date" },
+  # On a card of the European model, column 11 prints the end of validity of each category.
+  { name = "fin_validite_AM", label = "Catégorie AM : date de fin de validité (colonne 11), si elle est imprimée", kind = "date" },
+  { name = "fin_validite_A1", label = "Catégorie A1 : date de fin de validité (colonne 11), si elle est imprimée", kind = "date" },
+  { name = "fin_validite_A2", label = "Catégorie A2 : date de fin de validité (colonne 11), si elle est imprimée", kind = "date" },
+  { name = "fin_validite_A", label = "Catégorie A : date de fin de validité (colonne 11), si elle est imprimée", kind = "date" },
+  { name = "fin_validite_B", label = "Catégorie B : date de fin de validité (colonne 11), si elle est imprimée", kind = "date" },
+]
+
+elements = ["Photo du titulaire (au recto)", "Nom du pays ou de l'autorité de délivrance"]
+
+date_order = [
+  ["date_naissance", "date_delivrance"],
+  ["date_delivrance", "date_expiration"],
+]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Permis de conduire délivré hors de France, recto ou verso : la présentation dépend du pays. Les permis de l'Union européenne suivent le modèle européen (rubriques 1 à 12) ; les autres ont leur propre présentation, qui n'est pas une anomalie."
+source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)"
+layout = "varies"  # each country has its own model
+labels = []
+zones = []
+field_order = []

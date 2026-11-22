@@ -1,0 +1,38 @@
+# Titre de séjour, recto (old and new formats).
+# Source: fiche « Titre de séjour » (09/2022): the name and birth date must be the
+# subscriber's, and the validity date MUST be a future date.
+name = "titre_sejour_recto"
+family = "identity"
+label = "Titre de séjour, recto"
+natures = ["Titre de séjour, recto"]
+
+fields = [
+  { name = "nom", label = "Nom", kind = "text" },
+  { name = "prenoms", label = "Prénoms", kind = "text" },
+  { name = "date_naissance", label = "Date de naissance", kind = "date" },
+  { name = "nationalite", label = "Nationalité", kind = "text" },
+  { name = "type_titre", label = "Type de titre (carte de séjour, carte de résident...)", kind = "text" },
+  { name = "numero_document", label = "Numéro du titre (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "date_debut_validite", label = "Date de début de validité ou de délivrance", kind = "date" },
+  { name = "date_expiration", label = "Date de fin de validité", kind = "date" },
+  { name = "remarques", label = "Remarques ou mentions (autorisation de travail...)", kind = "text" },
+]
+
+elements = ["Photo du titulaire", "Mention TITRE DE SÉJOUR ou RÉSIDENCE", "Drapeau ou mention RÉPUBLIQUE FRANÇAISE"]
+
+date_order = [["date_naissance", "date_debut_validite"], ["date_debut_validite", "date_expiration"]]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Titre de séjour au modèle uniforme européen (format carte), recto : intitulé TITRE DE SÉJOUR, photo, nom, prénoms et date de fin de validité."
+source = "Règlement (CE) n° 1030/2002 modifié (modèle uniforme de titre de séjour) ; Fiche « Titre de séjour » (09/2022)"
+layout = "fixed"  # the uniform European model (regulation 1030/2002)
+labels = [
+  { text = "TITRE DE SÉJOUR", source = "Règlement (CE) n° 1030/2002 modifié (modèle uniforme de titre de séjour)" },
+]
+zones = [
+  { name = "Photo du titulaire", where = "", source = "Règlement (CE) n° 1030/2002 modifié (modèle uniforme de titre de séjour)" },
+  { name = "Date de fin de validité", where = "", source = "Fiche « Titre de séjour » (09/2022)" },
+]
+field_order = ["Nom", "Prénoms"]

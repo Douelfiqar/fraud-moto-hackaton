@@ -1,0 +1,47 @@
+# Relevé d'identité bancaire.
+# Source: fiche « RIB » (11/2025): the holder must appear; EU RIBs accepted; savings accounts,
+# Monaco RIBs and handwritten RIBs refused.
+name = "rib"
+family = "rib"
+label = "Relevé d'identité bancaire (RIB)"
+natures = ["Relevé d'identité bancaire"]
+
+fields = [
+  { name = "titulaire", label = "Titulaire du compte", kind = "text" },
+  { name = "banque", label = "Nom de la banque et domiciliation", kind = "text" },
+  { name = "iban", label = "IBAN (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "bic", label = "BIC", kind = "code" },
+  { name = "code_banque", label = "Code banque (5 chiffres)", kind = "code" },
+  { name = "code_guichet", label = "Code guichet (5 chiffres)", kind = "code" },
+  { name = "numero_compte", label = "Numéro de compte (11 caractères)", kind = "code" },
+  { name = "cle_rib", label = "Clé RIB (2 chiffres)", kind = "code" },
+  { name = "type_compte", label = "Type de compte s'il est indiqué (courant, livret...)", kind = "text" },
+]
+
+elements = [
+  "Titulaire du compte",
+  "IBAN",
+  "BIC",
+  "Nom de la banque",
+  "Document imprimé (pas manuscrit)",
+]
+
+date_order = []
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Relevé d'identité bancaire : titulaire, banque, IBAN et BIC ; un RIB français donne aussi le code banque, le code guichet, le numéro de compte et la clé RIB, dans cet ordre. La mise en page varie selon la banque."
+source = "Format du RIB français (code banque, code guichet, numéro de compte, clé) et norme IBAN ; Fiche « RIB » (11/2025)"
+layout = "varies"  # each bank prints its own layout
+labels = [
+  { text = "IBAN", source = "Format du RIB français (code banque, code guichet, numéro de compte, clé) et norme IBAN" },
+  { text = "BIC", source = "Format du RIB français (code banque, code guichet, numéro de compte, clé) et norme IBAN" },
+]
+zones = [
+  { name = "Titulaire du compte", where = "", source = "Fiche « RIB » (11/2025)" },
+  { name = "Nom ou logo de la banque", where = "", source = "Format du RIB français (code banque, code guichet, numéro de compte, clé) et norme IBAN" },
+  { name = "IBAN", where = "", source = "Format du RIB français (code banque, code guichet, numéro de compte, clé) et norme IBAN" },
+  { name = "BIC", where = "", source = "Format du RIB français (code banque, code guichet, numéro de compte, clé) et norme IBAN" },
+]
+field_order = ["Code banque", "Code guichet", "Numéro de compte", "Clé RIB"]

@@ -1,0 +1,26 @@
+# The long words of each official form's own printed wording, by document type.
+#
+# An official form is printed from one master: these words read the same on every copy.
+# The check "official_wording" looks for one of them printed with wrong letters, which
+# is what an image-generation tool does to small print.
+#
+# Two constraints on what is listed:
+# - nine letters or more: shorter words resemble too many other words;
+# - no word that looks like a value a document can print. "FRANCAISE" is left out
+#   because any nationality reads like it, "NATIONALE" and "NATIONALITE" because they
+#   read like each other and like their English captions.
+# Sources: the title and captions of each official model (certificat d'immatriculation,
+# arrêté du 9 février 2009; permis de conduire, directive 2006/126/CE; titles and
+# attestations issued by the prefectures). Foreign documents have no list: not judged.
+
+[words]
+carte_grise = ["CERTIFICAT", "IMMATRICULATION", "PROPRIETAIRE", "DETACHABLE", "DELEGATION", "IMPRIMERIE"]
+permis_nouveau_recto = ["REPUBLIQUE"]
+permis_nouveau_verso = ["REPUBLIQUE"]
+permis_ancien_recto = ["REPUBLIQUE"]
+permis_ancien_verso = ["REPUBLIQUE"]
+piece_identite = ["REPUBLIQUE"]
+titre_sejour_recto = ["REPUBLIQUE"]
+titre_sejour_verso = ["REPUBLIQUE"]
+attestation_asile = ["ATTESTATION", "REPUBLIQUE"]
+attestation_prolongation = ["ATTESTATION", "PROLONGATION", "INSTRUCTION", "REPUBLIQUE"]

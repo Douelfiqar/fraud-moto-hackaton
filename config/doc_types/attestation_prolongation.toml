@@ -1,0 +1,30 @@
+# Attestation de prolongation d'instruction d'un titre de séjour.
+name = "attestation_prolongation"
+family = "identity"
+label = "Attestation de prolongation d'instruction d'un titre de séjour"
+natures = ["Attestation de prolongation d'instruction d'un titre de séjour"]
+
+fields = [
+  { name = "nom", label = "Nom", kind = "text" },
+  { name = "prenoms", label = "Prénoms", kind = "text" },
+  { name = "date_naissance", label = "Date de naissance", kind = "date" },
+  { name = "nationalite", label = "Nationalité", kind = "text" },
+  { name = "numero_etranger", label = "Numéro d'étranger (recopier aussi chaque autre exemplaire)", kind = "code" },
+  { name = "date_delivrance", label = "Date de délivrance", kind = "date" },
+  { name = "date_expiration", label = "Date de fin de validité (valable jusqu'au)", kind = "date" },
+  { name = "autorite", label = "Préfecture qui délivre", kind = "text" },
+]
+
+elements = ["Mention ATTESTATION DE PROLONGATION D'INSTRUCTION", "Cachet ou signature de la préfecture"]
+
+date_order = [["date_naissance", "date_delivrance"], ["date_delivrance", "date_expiration"]]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Attestation de prolongation d'instruction d'une demande de titre de séjour : identité du demandeur, dates de délivrance et de fin de validité. La présentation dépend de l'époque (papier préfectoral ou document édité en ligne)."
+source = "Connaissance générale du document préfectoral (aucune fiche APRIL)"
+layout = "varies"  # prefecture documents vary by period
+labels = []
+zones = []
+field_order = []

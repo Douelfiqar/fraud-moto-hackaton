@@ -1,0 +1,29 @@
+# Titre de séjour, verso. Source: fiche « Titre de séjour » (09/2022): no data to check on
+# the verso of the new format; the machine-readable lines and the address may be read.
+name = "titre_sejour_verso"
+family = "identity"
+label = "Titre de séjour, verso"
+natures = ["Titre de séjour, verso"]
+
+fields = [
+  { name = "adresse", label = "Adresse", kind = "text" },
+  { name = "numero_document", label = "Numéro du titre (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "mrz", label = "Lignes de lecture automatique (bande de caractères en bas)", kind = "code" },
+  { name = "date_expiration", label = "Date de fin de validité, si elle est imprimée", kind = "date" },
+]
+
+elements = ["Lignes de lecture automatique"]
+
+date_order = []
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Titre de séjour au modèle uniforme européen, verso : trois lignes de lecture automatique en bas."
+source = "Règlement (CE) n° 1030/2002 modifié (modèle uniforme de titre de séjour) ; OACI, Doc 9303 (documents de voyage lisibles à la machine) ; Fiche « Titre de séjour » (09/2022)"
+layout = "fixed"  # the uniform European model (regulation 1030/2002)
+labels = []
+zones = [
+  { name = "Lignes de lecture automatique (trois lignes)", where = "en bas", source = "OACI, Doc 9303 (documents de voyage lisibles à la machine)" },
+]
+field_order = []

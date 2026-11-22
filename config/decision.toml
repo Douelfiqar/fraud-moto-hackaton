@@ -1,0 +1,77 @@
+# Which checks may flag a document, and the confidence written in the answer file.
+#
+# This file is the only place where trust is given. A document is flagged only when
+# one of the "trusted" checks fails. Every other failed check is reported, with its
+# evidence, on the review list (cache/decision/review.csv), but never flags.
+# Precision comes first: past the free wrong flags (3% of the evaluated documents),
+# each wrong flag costs about as much as three fakes caught.
+# Every check judges one document on its own; none compares documents.
+#
+# Trust is given check by check, on two grounds: what the rule rests on (a law, a standard,
+# a practice sheet, the structure of the file, or what the model sees on the picture), and
+# how the check behaved on documents whose status the team established by examination and
+# on the intermediate deposits.
+
+trusted = [
+  # What the file itself shows (laptop, no model).
+  "font", "covered_text", "generated_size", "scan_overlay",
+  # What a local text reader sees on the page: an official caption printed with wrong letters.
+  "official_wording",
+  # What the model saw on the picture: another font, sharper text or a background patch.
+  "typography_picture",
+  # Rules on the values read, each inside one document.
+  "dates", "copies_agree",
+  "releve_new_model", "releve_items", "bonus_malus_licence", "base_form",
+  "licence_categories", "licence_card_dates", "licence_min_age", "licence_front_categories",
+  # Column 11 of a licence back: motorbike and car categories of one card share one validity date.
+  "licence_category_validity",
+  "cg_mrz_check_digits", "cg_mrz_matches_print",
+  "foreigner_number", "asylum_validity",
+  # An asylum attestation is issued and first registered at a prefecture counter: never on a Sunday or a public holiday.
+  "asylum_counter_days",
+  # The document's own signed code against its own print (code read on the laptop).
+  "twod_doc_matches_print", "twod_doc_date_matches_print",
+  # An attestation of extended processing runs three months at most (CESEDA, article R. 431-15-1).
+  "prolongation_validity",
+  # A relevé that classes as a car the vehicle of a maker of two-wheelers, or the reverse (item 9 against item 11).
+  "releve_vehicle_category",
+  # A foreign licence whose number does not have the length its country gives it (today: Italy, ten characters).
+  "foreign_licence_number",
+]
+
+# Left untrusted on purpose (they inform the review list):
+#   validity_expired     the organisers confirmed on 22 November that an expired document is not a fraud by that
+#                        alone: the check informs the person who validates, it never flags
+#   releve_too_old       the sheet counts three months from the new contract's date, which is not on the document
+#   fixed_text_spelling  six insurers' own forms carry a misspelling in the same line
+#   baseline_shift, field_order, and the format rules of plates, VIN, IBAN and BIC
+
+# Confidence written for a flagged document: the highest among its failed trusted checks.
+[confidence]
+font = 0.9
+generated_size = 0.9
+scan_overlay = 0.9
+twod_doc_matches_print = 0.9
+twod_doc_date_matches_print = 0.9
+prolongation_validity = 0.85
+asylum_counter_days = 0.85
+releve_vehicle_category = 0.85
+foreign_licence_number = 0.8
+official_wording = 0.8
+covered_text = 0.85
+licence_categories = 0.85
+licence_front_categories = 0.85
+licence_card_dates = 0.85
+licence_min_age = 0.8
+dates = 0.8
+cg_mrz_check_digits = 0.8
+cg_mrz_matches_print = 0.8
+foreigner_number = 0.8
+bonus_malus_licence = 0.75
+licence_category_validity = 0.75
+asylum_validity = 0.75
+typography_picture = 0.75
+releve_new_model = 0.75
+copies_agree = 0.7
+releve_items = 0.7
+base_form = 0.7

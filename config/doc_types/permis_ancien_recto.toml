@@ -1,0 +1,32 @@
+# Permis de conduire, ancien modèle (trois volets roses), face avec l'identité.
+# Source: fiche « Permis de conduire » (11/2025), old format.
+name = "permis_ancien_recto"
+family = "licence"
+label = "Permis de conduire ancien modèle (papier rose), face avec l'identité"
+natures = ["Permis de conduire ancien modèle, recto"]
+
+fields = [
+  { name = "nom", label = "Nom", kind = "text" },
+  { name = "prenoms", label = "Prénoms", kind = "text" },
+  { name = "date_naissance", label = "Date de naissance", kind = "date" },
+  { name = "lieu_naissance", label = "Lieu de naissance", kind = "text" },
+  { name = "date_delivrance", label = "Date de délivrance", kind = "date" },
+  { name = "prefecture", label = "Préfecture de délivrance", kind = "text" },
+  { name = "numero_permis", label = "Numéro du permis (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+]
+
+elements = ["Photo du titulaire", "Signature du titulaire", "Timbre ou cachet de la préfecture", "Mention PERMIS DE CONDUIRE"]
+
+date_order = [["date_naissance", "date_delivrance"]]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Ancien permis de conduire français (papier rose à volets), face portant l'identité et la photo du titulaire. Plusieurs versions successives existent."
+source = "Fiche « Permis de conduire » (11/2025)"
+layout = "varies"  # several versions of the pink licence over the years
+labels = []
+zones = [
+  { name = "Photo du titulaire", where = "", source = "Fiche « Permis de conduire » (11/2025)" },
+]
+field_order = []

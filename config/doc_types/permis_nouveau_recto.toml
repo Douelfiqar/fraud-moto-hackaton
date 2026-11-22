@@ -1,0 +1,57 @@
+# Permis de conduire, nouveau modèle (carte), recto.
+# Source: fiche « Permis de conduire » (11/2025): validity dates (4b) to watch.
+name = "permis_nouveau_recto"
+family = "licence"
+label = "Permis de conduire au format carte, recto"
+natures = ["Permis de conduire nouveau modèle, recto"]
+
+fields = [
+  { name = "nom", label = "1. Nom", kind = "text" },
+  { name = "prenoms", label = "2. Prénoms", kind = "text" },
+  { name = "date_naissance", label = "3. Date de naissance", kind = "date" },
+  { name = "lieu_naissance", label = "3. Lieu de naissance", kind = "text" },
+  { name = "date_delivrance", label = "4a. Date de délivrance", kind = "date" },
+  { name = "date_expiration", label = "4b. Date de fin de validité", kind = "date" },
+  { name = "autorite", label = "4c. Autorité de délivrance", kind = "text" },
+  { name = "numero_permis", label = "5. Numéro du permis (recopier aussi chaque autre exemplaire imprimé)", kind = "code" },
+  { name = "categories", label = "9. Catégories de véhicules", kind = "text" },
+  # A scan often shows both sides of the card on one page: the back is then read too.
+  { name = "date_categorie_AM", label = "Verso, s'il figure aussi sur l'image : catégorie AM, date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_A1", label = "Verso, s'il figure aussi sur l'image : catégorie A1, date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_A2", label = "Verso, s'il figure aussi sur l'image : catégorie A2, date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_A", label = "Verso, s'il figure aussi sur l'image : catégorie A, date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_B1", label = "Verso, s'il figure aussi sur l'image : catégorie B1, date d'obtention (colonne 10)", kind = "date" },
+  { name = "date_categorie_B", label = "Verso, s'il figure aussi sur l'image : catégorie B, date d'obtention (colonne 10)", kind = "date" },
+  { name = "mrz", label = "Verso, s'il figure aussi sur l'image : ligne de lecture automatique en bas de la carte (30 caractères, commence par D1FRA), recopiée caractère par caractère", kind = "code" },
+]
+
+elements = ["Photo du titulaire", "Signature du titulaire", "Mention PERMIS DE CONDUIRE", "Drapeau européen avec le code F"]
+
+date_order = [["date_naissance", "date_delivrance"], ["date_delivrance", "date_expiration"]]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Permis de conduire au modèle européen (format carte), recto : titre PERMIS DE CONDUIRE, emblème européen avec le signe distinctif de l'État, photo à gauche, signature, et rubriques numérotées 1, 2, 3, 4a, 4b, 4c, 5 et 9 (4a et 4b sur la même ligne)."
+source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire) ; Fiche « Permis de conduire » (11/2025)"
+layout = "fixed"  # the European card model (directive 2006/126/CE)
+labels = [
+  { text = "PERMIS DE CONDUIRE", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "1.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "2.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "3.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "4a.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "4b.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "4c.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "5.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { text = "9.", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+]
+zones = [
+  { name = "Emblème européen (rectangle bleu, douze étoiles) avec le signe distinctif F", where = "en haut à gauche", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { name = "Photo du titulaire (rubrique 6)", where = "à gauche", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+  { name = "Signature du titulaire (rubrique 7)", where = "", source = "Directive 2006/126/CE, annexe I (modèle européen de permis de conduire)" },
+]
+# 4b and 4c are left out of the order on purpose: on the French card 4c is printed beside 4a and 4b below
+# them, so which of the two "comes first" depends on how the lines are read: with them in the order,
+# a card in the normal layout is reported as "4b and 4c swapped".
+field_order = ["1.", "2.", "3.", "4a.", "5.", "9."]

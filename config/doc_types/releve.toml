@@ -1,0 +1,69 @@
+# Relevé d'information (relevé de sinistres).
+# Source: fiches « La lecture des RI » (10/2022), « La lecture du nouveau RI » (07/2025),
+# « Relevé d'informations » and « Relevé de sinistres » (06/2026). The five items staff
+# check on every relevé: edition date, subscription date, contract status, bonus-malus, vehicle.
+name = "releve"
+family = "releve"
+label = "Relevé d'information (relevé de sinistres)"
+natures = ["Relevé d'information (relevé de sinistres)"]
+
+fields = [
+  { name = "assureur", label = "Nom de la compagnie qui émet le relevé", kind = "text" },
+  { name = "date_edition", label = "Date d'édition du relevé", kind = "date" },
+  { name = "souscripteur", label = "Nom du souscripteur du contrat", kind = "text" },
+  { name = "numero_contrat", label = "Numéro du contrat", kind = "code" },
+  { name = "date_souscription", label = "Date de souscription ou date d'effet du contrat", kind = "date" },
+  { name = "situation_contrat", label = "Situation du contrat (en cours, résilié...)", kind = "text" },
+  { name = "date_resiliation", label = "Date de résiliation ou de suppression des garanties", kind = "date" },
+  { name = "motif_resiliation", label = "Motif de la résiliation", kind = "text" },
+  { name = "bonus_malus", label = "Coefficient de réduction-majoration (bonus-malus)", kind = "number" },
+  { name = "vehicule", label = "Véhicule assuré : immatriculation, marque, modèle ou catégorie (auto ou moto)", kind = "text" },
+  { name = "immatriculation", label = "Immatriculation du véhicule assuré", kind = "code" },
+  # Items 9 and 11 of the European model, each asked on its own: the rule that compares the vehicle's category
+  # with its maker then does not depend on how the free description above happens to be written.
+  { name = "categorie_vehicule", label = "Catégorie de véhicule (rubrique 9 du modèle européen) : la ou les lettres imprimées", kind = "text" },
+  { name = "numero_identification_vehicule", label = "Numéro d'identification du véhicule (rubrique 11 du modèle européen)", kind = "code" },
+  { name = "conducteurs", label = "Conducteurs désignés au contrat, avec leur date de désignation", kind = "text" },
+  { name = "date_permis", label = "Date d'obtention du permis du conducteur principal", kind = "date" },
+  { name = "sinistres", label = "Sinistres déclarés sur la période (dates, responsabilité), ou mention d'absence", kind = "text" },
+  { name = "periode", label = "Période couverte par le relevé", kind = "text" },
+]
+
+elements = [
+  "Nom ou logo de l'assureur émetteur",
+  "Date d'édition du relevé",
+  "Date de souscription du contrat",
+  "Situation du contrat",
+  "Coefficient bonus-malus",
+  "Identification du véhicule assuré",
+  "Liste des sinistres ou mention d'absence de sinistre",
+  "Conducteurs désignés",
+  "Sections A à F et « Date et signature » du modèle européen (relevés édités depuis le 24 juillet 2025)",
+]
+
+# Pairs of date fields: the first may not be later than the second.
+date_order = [
+  ["date_souscription", "date_edition"],
+  ["date_souscription", "date_resiliation"],
+  ["date_permis", "date_edition"],
+]
+
+# What the empty form looks like, for the inspection stage (python -m fraudcheck inspect).
+# Labels: the form's own printed text, in printed order. Zones: what a genuine form always shows.
+[base_form]
+description = "Relevé d'information émis par un assureur. Depuis le 24 juillet 2025, modèle européen de relevé de sinistres, en français et traduit en anglais : sections A à F puis « Date et signature », rubriques numérotées 1 à 24 (A : émetteur, 1 à 4 ; B : preneur d'assurance, 5 à 8 ; C : véhicule(s) assuré(s), 9 à 12 ; D : contrat(s), 13 à 16 ; E : sinistre(s), 17 à 20 ; F : informations complémentaires, dont le bonus-malus et les conducteurs désignés, 21 ; date et signature, 22 à 24). Chaque assureur garde sa propre mise en page. Avant cette date, chaque assureur avait sa propre présentation : les sections ne s'appliquent pas."
+source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres) ; Fiche « La lecture du nouveau RI » (07/2025) ; Fiche « La lecture des RI » (10/2022)"
+layout = "varies"  # each insurer prints its own layout; the European model fixes the sections and their order
+labels = [
+  { text = "A. Identité de l'émetteur du relevé de sinistres", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+  { text = "B. Identité et coordonnées du preneur d'assurance", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+  { text = "C. Véhicule(s) assuré(s)", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+  { text = "D. Contrat(s) d'assurance", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+  { text = "E. Sinistre(s)", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+  { text = "F. Informations complémentaires sur les règles ou pratiques en vigueur dans l'État membre en matière de réduction ou de majoration des primes et sur les dispositions contractuelles ayant une incidence sur le calcul des primes", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+  { text = "Date et signature", source = "Règlement d'exécution (UE) 2024/1855, annexe, partie A (modèle de relevé de sinistres)" },
+]
+zones = [
+  { name = "Nom ou logo de l'assureur qui émet le relevé", where = "", source = "Fiche « La lecture des RI » (10/2022)" },
+]
+field_order = ["Section A", "Section B", "Section C", "Section D", "Section E", "Section F", "Date et signature"]
