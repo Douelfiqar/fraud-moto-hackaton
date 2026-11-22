@@ -22,7 +22,7 @@ documents ──▶ 1 ingest ──▶ 2 read ──▶ 3 inspect ──▶ 4 ch
 | 1. Préparer (`ingest`) | une image par page ; pour un PDF, son texte avec polices et positions, et ce qui a été posé sur un scan ; deux lecteurs locaux relèvent les codes 2D-Doc et les mots imprimés | aucun |
 | 2. Lire (`read`) | une requête par document recopie les valeurs imprimées dans un formulaire strict | gpt-6.1-terra |
 | 3. Inspecter (`inspect`) | une requête par document compare l'image au formulaire de base de son type | gpt-6.1-terra |
-| 4. Contrôler (`check`) | 44 contrôles : traces d'édition dans le fichier, règles sur les valeurs lues, constats sur l'image | aucun |
+| 4. Contrôler (`check`) | 45 contrôles : traces d'édition dans le fichier, règles sur les valeurs lues, constats sur l'image | aucun |
 | 5. Décider (`decide`) | signale un document quand un contrôle de confiance échoue, applique les décisions enregistrées par la personne qui valide, écrit le fichier de réponse | aucun |
 | 6. Mesurer (`evaluate`) | score selon le barème des organisateurs sur des exemples annotés | aucun |
 | 7. Valider (écran) | le gestionnaire voit chaque décision avec ses raisons, ses indices et sa confiance, puis la confirme ou la corrige | aucun |

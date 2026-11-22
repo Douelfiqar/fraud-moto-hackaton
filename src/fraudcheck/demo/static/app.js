@@ -153,14 +153,18 @@
     else render();
   }
 
-  function select(key) {
+  function select(key, fromHistory) {
     const doc = find(key);
     state.selected = doc ? key : null;
     state.page = 1;
     state.zoom = 0;
     state.retyping = null;
     state.play = doc && busy(doc) ? { key, shown: finished(doc), since: performance.now() } : null;
-    history.replaceState(null, '', doc ? `#${key}` : location.pathname); // a reloaded page opens the same document
+    // A reloaded page opens the same document, and the browser's Back button returns to the previous one.
+    const here = doc ? `#${key}` : location.pathname;
+    const moved = (location.hash.slice(1) || null) !== (doc ? key : null);
+    if (fromHistory || !moved) history.replaceState(null, '', here);
+    else history.pushState(null, '', here);
     render();
   }
 
@@ -513,7 +517,7 @@
       }
       if (facts.inspected === false) tags.push(tag("l'IA n'a pas pu regarder ce document", 'warn'));
     } else if (stage.key === 'check' && facts.applied !== undefined) {
-      tags.push(tag(`${facts.applied} contrôles appliqués sur ${facts.total}`));
+      tags.push(tag(`${plural(facts.applied, 'contrôle appliqué', 'contrôles appliqués')} sur ${facts.total}`));
       tags.push(tag(plural(facts.pass, 'conforme', 'conformes'), 'ok'));
       if (facts.fail) tags.push(tag(`${facts.fail} en échec`, 'alert'));
       if (facts.cannot_tell) tags.push(tag(`${facts.cannot_tell} sans réponse`, 'warn'));
@@ -606,7 +610,8 @@
       el('ul', { class: 'checks' }, rows.map((row) => el('li', { class: `check--${row.outcome}` },
         icon(mark[row.outcome] || 'check'),
         el('span', { text: row.evidence || '' }),
-        el('span', { class: 'checks__meta' }, tag(KINDS[row.kind] || row.kind), tag(row.name, 'code'))))));
+        // The check's internal name stays out of sight: a handler reads the sentence, not the identifier.
+        el('span', { class: 'checks__meta', title: row.name }, tag(KINDS[row.kind] || row.kind))))));
   }
 
   function resultPart(doc) {
@@ -629,7 +634,7 @@
       decision.clues.length > 0 && [el('h3', { text: 'Indices' }),
         el('ul', { class: 'clues' }, decision.clues.map((clue) => el('li', null, icon('alert'), clue)))],
       unreadable,
-      el('h3', { text: `Les contrôles : ${applied} appliqués à ce document, sur ${rows.length}` }),
+      el('h3', { text: `Les contrôles : ${plural(applied, 'appliqué', 'appliqués')} à ce document, sur ${rows.length}` }),
       el('div', null,
         checkGroup('En échec, de confiance', 'ce sont eux qui signalent le document', failed.filter((row) => row.trusted), 'alert', true),
         checkGroup('En échec, à titre indicatif', 'à regarder, sans suffire à signaler', failed.filter((row) => !row.trusted), 'warn', true),
@@ -786,7 +791,8 @@
     }
     renderMode();
     renderHow();
-    select(location.hash.slice(1) || null);
+    select(location.hash.slice(1) || null, true);
+    window.addEventListener('popstate', () => select(location.hash.slice(1) || null, true));
     setInterval(poll, 450);
     setInterval(tick, 120);
   }

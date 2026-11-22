@@ -6,6 +6,7 @@ Step 4: checks by document family, run on the reading from step 2.
 |---|---|
 | `_mrz.py` | Machine-readable lines (MRZ): layouts, check digits and the values they carry. |
 | `_values.py` | Helpers shared by the checks on the reading: field access, dates, numbers, normalisation, misreads. |
+| `asylum_days.py` | Asylum attestation: the days its two counter dates fall on. |
 | `carte_grise.py` | Carte grise: the vehicle category (J.1) against engine size (P.1) and power (P.2). |
 | `carte_grise_lines.py` | Carte grise: the two machine-readable lines at the bottom of the certificate. |
 | `carte_grise_numbers.py` | Carte grise: the registration number and the vehicle identification number (VIN). |

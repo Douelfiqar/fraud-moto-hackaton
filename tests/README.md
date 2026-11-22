@@ -5,6 +5,7 @@ One file per part of the pipeline. Documents are made by the tests themselves; n
 | File | Role |
 |---|---|
 | `conftest.py` | Builders for small test files. |
+| `test_asylum_days.py` | The days an asylum attestation's counter dates fall on. |
 | `test_catalogue.py` | The organisers' spreadsheet and the rules from nature to family. |
 | `test_checks_family.py` | Step 4: checks by family on the reading, with hand-made readings only. |
 | `test_checks_laptop.py` | Laptop checks: the font check, the check runner and the table, on generated documents only. |
